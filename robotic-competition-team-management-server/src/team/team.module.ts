@@ -7,4 +7,4 @@ import { teamProviders } from './entities/team.providers';
   controllers: [TeamController],
   providers: [TeamService, ...teamProviders]
 })
-export class TeamModule {}
+export class TeamModule { }

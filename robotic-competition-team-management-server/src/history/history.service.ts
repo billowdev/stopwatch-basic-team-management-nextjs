@@ -44,7 +44,7 @@ export class HistoryService {
     }
   }
 
-  update(id: number, updateHistoryDto: UpdateHistoryDto) {
+  update(id: string, updateHistoryDto: UpdateHistoryDto) {
     try {
       return this.historyRepository.update({ ...updateHistoryDto }, { where: { id } })
     } catch (error) {
@@ -52,7 +52,7 @@ export class HistoryService {
     }
   }
 
-  remove(id: number) {
+  remove(id: string) {
     try {
       return this.historyRepository.destroy({ where: { id } })
     } catch (error) {

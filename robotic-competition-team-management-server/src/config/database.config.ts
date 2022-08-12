@@ -10,7 +10,13 @@ export const databaseConfig: IDatabaseConfig = {
         database: process.env.DB_NAME_DEVELOPMENT,
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
-        dialect: 'mysql',
+        dialect: 'postgres',
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+         },
     },
     test: {
         username: process.env.DB_USER,
@@ -18,13 +24,25 @@ export const databaseConfig: IDatabaseConfig = {
         database: process.env.DB_NAME_TEST,
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
-        dialect: 'mysql',
+        dialect: 'postgres',
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+         },
     },
     production: {
         username: process.env.DB_USER,
         password: process.env.DB_PASS,
         database: process.env.DB_NAME_PRODUCTION,
         host: process.env.DB_HOST,
-        dialect: 'mysql',
+        dialect: 'postgres',
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+         },
     },
 };

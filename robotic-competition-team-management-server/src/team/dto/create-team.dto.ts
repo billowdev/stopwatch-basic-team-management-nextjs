@@ -1,5 +1,16 @@
+import { ApiProperty } from "@nestjs/swagger";
+import { IsString } from "class-validator";
+
 export class CreateTeamDto {
-	name?:string;
-	school?:string;
-	number?:string;
+	@ApiProperty()
+	@IsString()
+	name: string;
+
+	@ApiProperty()
+	@IsString()
+	school: string;
+
+	@ApiProperty()
+	@IsString()
+	number: string;
 }

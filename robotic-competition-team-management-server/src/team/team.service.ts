@@ -11,7 +11,6 @@ export class TeamService {
   create(createTeamDto: CreateTeamDto) {
     try {
       return this.teamRepository.create(createTeamDto)
-
     } catch (error) {
       throw new BadRequestException()
     }
@@ -45,7 +44,7 @@ export class TeamService {
     }
   }
 
-  update(id: number, updateTeamDto: UpdateTeamDto) {
+  update(id: string, updateTeamDto: UpdateTeamDto) {
     try {
       return this.teamRepository.update({ ...updateTeamDto }, { where: { id } })
     } catch (error) {
@@ -53,7 +52,7 @@ export class TeamService {
     }
   }
 
-  remove(id: number) {
+  remove(id: string) {
     try {
       return this.teamRepository.destroy({ where: { id } })
     } catch (error) {

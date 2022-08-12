@@ -5,10 +5,13 @@ import { UpdateTeamDto } from './dto/update-team.dto';
 
 @Controller('team')
 export class TeamController {
-  constructor(private readonly teamService: TeamService) {}
+  constructor(private readonly teamService: TeamService) { }
 
   @Post()
-  create(@Body() createTeamDto: CreateTeamDto) {
+  create(@Body() createTeamDto: any) {
+    console.log('====================================');
+    console.log(createTeamDto);
+    console.log('====================================');
     return this.teamService.create(createTeamDto);
   }
 
@@ -29,11 +32,11 @@ export class TeamController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto) {
-    return this.teamService.update(+id, updateTeamDto);
+    return this.teamService.update(id, updateTeamDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.teamService.remove(+id);
+    return this.teamService.remove(id);
   }
 }

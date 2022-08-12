@@ -30,11 +30,11 @@ export class HistoryController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateHistoryDto: UpdateHistoryDto) {
-    return this.historyService.update(+id, updateHistoryDto);
+    return this.historyService.update(id, updateHistoryDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.historyService.remove(+id);
+    return this.historyService.remove(id);
   }
 }
