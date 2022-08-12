@@ -12,6 +12,12 @@ export class HistoryController {
     return this.historyService.create(createHistoryDto);
   }
 
+  @Post('bulk')
+  createBulk(@Body() createHistoryDto: CreateHistoryDto[]) {
+    return this.historyService.createBulk(createHistoryDto);
+  }
+
+
   @Get()
   findAll() {
     return this.historyService.findAll();
@@ -19,7 +25,7 @@ export class HistoryController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.historyService.findOne(+id);
+    return this.historyService.findOne(id);
   }
 
   @Patch(':id')

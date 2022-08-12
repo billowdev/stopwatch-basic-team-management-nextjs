@@ -1,16 +1,14 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserAttributes } from 'src/user/entities/user.entity';
+import { Controller, Body, Post, HttpCode, HttpStatus, UseGuards, Get, Request, BadRequestException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, SessionDto, SignDto } from './dto';
-import { JwtAuthGuard, LocalGuard, UserIsExist } from './guards';
+import { UserIsExist, LocalGuard, JwtGuard } from './guard';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@ApiBearerAuth()
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
 	constructor(
-		private readonly authService: AuthService
+		private authService: AuthService
 	) { }
 
 	@ApiResponse({ type: SignDto })
@@ -21,26 +19,25 @@ export class AuthController {
 		return this.authService.signin(dto);
 	}
 
-	@ApiResponse({ type: UserAttributes })
 	@UseGuards(UserIsExist)
 	@Post('signup')
 	signup(@Body() dto: AuthDto) {
 		return this.authService.signup(dto);
 	}
 
-	@UseGuards(JwtAuthGuard)
-	// @ApiResponse({ type: SessionDto })
+	@UseGuards(JwtGuard)
 	@Get('session')
 	session(
 		@Request() req: any
-	): Promise<any> {
+	): Promise<SessionDto> {
 		try {
-			console.log('====================================');
-			console.log('get session');
-			console.log('====================================');
 			return req.user
 		} catch (error) {
 			throw new BadRequestException()
-			}
 		}
+
+	}
+
+
+
 }

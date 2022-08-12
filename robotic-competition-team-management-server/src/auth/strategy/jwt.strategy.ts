@@ -1,12 +1,12 @@
-import * as dotenv from 'dotenv';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 @Injectable()
-export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwtauth') {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 	constructor(private readonly userService: UserService) {
 		super({
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -15,11 +15,8 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwtauth') {
 		});
 	}
 
-	async validate(payload: any) {
-		console.log('====================================');
-		console.log('authentication');
-		console.log('====================================');
-		const user = await this.userService.findOneById(payload.sub);
+	async validate(payload: any) {		
+		const user = await this.userService.findOneById(payload.id);
 		if (!user) {
 			throw new UnauthorizedException('Unauthorized');
 		}

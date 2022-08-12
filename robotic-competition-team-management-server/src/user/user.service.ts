@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { User } from './entities/user.entity';
+import { UserDto } from './dto';
+import { USER_REPOSITORY } from '../@core/constants';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
+	constructor(@Inject(USER_REPOSITORY) private readonly userRepository: typeof User) { }
 
-  findAll() {
-    return `This action returns all user`;
-  }
+	public async create(user: UserDto | any): Promise<User> {
+		try {
+			return await this.userRepository.create<User>(user);
+		} catch (error) {
+			throw new BadRequestException()
+		}
+	}
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+	public async findOneByUsername(username: string): Promise<User> {
+		try {
+			return await this.userRepository.findOne<User>({
+				where: { username },
+				attributes: { include: ['id', 'username', 'password'] }
+			});
+		} catch (error) {
+			throw new BadRequestException()
+		}
+	}
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+	public async findOneById(id: any): Promise<User> {
+		try {
+			return await this.userRepository.findOne<User>({
+				where: { id },
+				attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+			});
+		} catch (error) {
+			throw new BadRequestException()
+		}
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+	}
+
 }

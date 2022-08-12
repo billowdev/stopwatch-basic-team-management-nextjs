@@ -12,6 +12,11 @@ export class TeamController {
     return this.teamService.create(createTeamDto);
   }
 
+  @Post('bulk')
+  createBulk(@Body() createTeamDto: CreateTeamDto[]) {
+    return this.teamService.createBulk(createTeamDto);
+  }
+
   @Get()
   findAll() {
     return this.teamService.findAll();
@@ -19,7 +24,7 @@ export class TeamController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.teamService.findOne(+id);
+    return this.teamService.findOne(id);
   }
 
   @Patch(':id')

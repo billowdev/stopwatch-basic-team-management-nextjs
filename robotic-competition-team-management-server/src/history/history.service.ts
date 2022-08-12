@@ -1,26 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { HISTORY_REPOSITORY } from 'src/@core/constants';
 import { CreateHistoryDto } from './dto/create-history.dto';
 import { UpdateHistoryDto } from './dto/update-history.dto';
+import { History } from './entities/history.entity';
 
 @Injectable()
 export class HistoryService {
+  constructor(@Inject(HISTORY_REPOSITORY) private readonly historyRepository: typeof History) { }
+
   create(createHistoryDto: CreateHistoryDto) {
-    return 'This action adds a new history';
+    try {
+      return this.historyRepository.create(createHistoryDto)
+
+    } catch (error) {
+      throw new BadRequestException()
+    }
   }
+  createBulk(createHistoryDto: CreateHistoryDto[]) {
+    try {
+      return this.historyRepository.bulkCreate(createHistoryDto)
+    } catch (error) {
+      throw new BadRequestException()
+    }
+  }
+
+
 
   findAll() {
-    return `This action returns all history`;
+    try {
+      return this.historyRepository.findAll()
+
+    } catch (error) {
+      throw new BadRequestException()
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} history`;
+  findOne(id: string) {
+    try {
+      return this.historyRepository.findByPk(id)
+
+    } catch (error) {
+      throw new BadRequestException()
+    }
   }
 
   update(id: number, updateHistoryDto: UpdateHistoryDto) {
-    return `This action updates a #${id} history`;
+    try {
+      return this.historyRepository.update({ ...updateHistoryDto }, { where: { id } })
+    } catch (error) {
+      throw new BadRequestException()
+    }
   }
 
   remove(id: number) {
-    return `This action removes a #${id} history`;
+    try {
+      return this.historyRepository.destroy({ where: { id } })
+    } catch (error) {
+      throw new BadRequestException()
+    }
   }
 }

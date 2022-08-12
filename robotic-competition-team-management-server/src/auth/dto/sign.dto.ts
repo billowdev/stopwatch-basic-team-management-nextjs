@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsObject, IsString } from 'class-validator';
-import { UserAttributes } from 'src/user/entities/user.entity';
+import { UserDto } from 'src/user/dto';
 
 export class SignDto {
   @ApiProperty()
   @IsObject()
   @IsNotEmpty()
-  user: UserAttributes;
+  user: UserDto;
   
   @ApiProperty()
   @IsString()
