@@ -21,8 +21,10 @@ a {
   }
   body {
     color: white;
-    background-size: cover;
+    background-color: white;
     min-height: 100vh;
   
   }
+
+ 
 }

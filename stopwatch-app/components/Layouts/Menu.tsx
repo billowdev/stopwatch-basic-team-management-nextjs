@@ -16,8 +16,9 @@ import { Layers, BarChart, Person } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import GroupsIcon from "@mui/icons-material/Groups";
 import HistoryIcon from '@mui/icons-material/History';
-
+import Timer10Icon from '@mui/icons-material/Timer10';
 const drawerWidth = 240;
+import TimerIcon from '@mui/icons-material/Timer';
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -112,11 +113,11 @@ export default function Menu({ open, onDrawerClose }: MenuProp) {
             <ListItemIcon>
               <GroupsIcon />
             </ListItemIcon>
-            <ListItemText primary="Team" />
+            <ListItemText primary="จัดการทีม" />
           </ListItem>
         </Link>
 
-        {/* Report */}
+        {/* History */}
         <Link href="/history" passHref>
           <ListItem
             button
@@ -125,13 +126,41 @@ export default function Menu({ open, onDrawerClose }: MenuProp) {
             <ListItemIcon>
               <HistoryIcon />
             </ListItemIcon>
-            <ListItemText primary="history" />
+            <ListItemText primary="ประวัติการบันทึกเวลา" />
           </ListItem>
         </Link>
 
         <Divider />
+
+        <Link href="/timer" passHref>
+          <ListItem
+            button
+            className={router.pathname === "/timer" ? "Mui-selected" : ""}
+          >
+            <ListItemIcon>
+              <Timer10Icon />
+            </ListItemIcon>
+            <ListItemText primary="เวลานับถอยหลัง" />
+          </ListItem>
+        </Link>
+
+        <Link href="/stopwatch" passHref>
+          <ListItem
+            button
+            className={router.pathname === "/stopwatch" ? "Mui-selected" : ""}
+          >
+            <ListItemIcon>
+              <TimerIcon />
+            </ListItemIcon>
+            <ListItemText primary="จับเวลา" />
+          </ListItem>
+        </Link>
+
+      
+
+
         {/* Aboutus */}
-        <Link href="/aboutus" passHref>
+        {/* <Link href="/aboutus" passHref>
           <ListItem
             button
             className={router.pathname === "/aboutus" ? "Mui-selected" : ""}
@@ -141,7 +170,7 @@ export default function Menu({ open, onDrawerClose }: MenuProp) {
             </ListItemIcon>
             <ListItemText primary="About us" />
           </ListItem>
-        </Link>
+        </Link> */}
       </List>
     </Drawer>
   );

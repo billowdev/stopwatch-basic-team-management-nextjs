@@ -127,3 +127,14 @@
     filter: invert(1);
   }
 }
+
+
+.timer-wrapper {
+  font-size: 6em;
+}
+
+.timer-message {
+  font-size: 0.5em;
+  min-height: 1.3em;
+  margin-bottom: 0.5em;
+}
