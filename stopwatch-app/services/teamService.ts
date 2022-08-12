@@ -15,8 +15,8 @@ export const createTeam = async (data: FormData): Promise<void> => {
 	await httpClient.post(`/team`, data);
 };
 
-export const updateTeam = async (data: FormData): Promise<void> => {
-  await httpClient.put(`/team`, data);
+export const updateTeam = async (data: any): Promise<void> => {
+	await httpClient.patch(`/team`, data);
 };
 
 

@@ -17,8 +17,8 @@ router.post("/", async (req, res) => {
 	return res.json(team)
 });
 
-router.patch("/:id", async (req, res) => {
-	const teams = await teamService.updateTeam(req.params.id, req.body)
+router.patch("/", async (req, res) => {
+	const teams = await teamService.updateTeam(req.body)
 	return res.json(teams)
 });
 

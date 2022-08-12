@@ -24,9 +24,9 @@ exports.createTeam = async (body) => {
 	}
 }
 
-exports.updateTeam = async (id, body) => {
+exports.updateTeam = async (body) => {
 	try {
-		return await Team.update({ ...body }, { where: { id } })
+		return await Team.update({ ...body }, { where: { id: body?.id } })
 	} catch (error) {
 		console.log('====================================');
 		console.log(error);

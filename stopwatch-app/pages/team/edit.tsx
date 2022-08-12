@@ -11,19 +11,23 @@ import {
 } from "@mui/material";
 import { Field, Form, Formik, FormikProps } from "formik";
 import { TextField } from "formik-material-ui";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  GetStaticPaths,
+  GetStaticProps,
+} from "next";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 
 type Props = {
-  team?: TeamData;
+  team: TeamData;
 };
 
 const Edit = ({ team }: Props) => {
   const router = useRouter();
-
   const showForm = ({
     values,
     setFieldValue,
@@ -34,7 +38,7 @@ const Edit = ({ team }: Props) => {
         <Card>
           <CardContent sx={{ padding: 4 }}>
             <Typography gutterBottom variant="h3">
-              Edit team
+            แก้ไขข้อมูลทีม
             </Typography>
 
             <Field
@@ -63,8 +67,6 @@ const Edit = ({ team }: Props) => {
               type="text"
               label="Number"
             />
-
-          
           </CardContent>
           <CardActions>
             <Button
@@ -94,18 +96,13 @@ const Edit = ({ team }: Props) => {
         validate={(values) => {
           let errors: any = {};
           if (!values.name) errors.name = "Enter name";
-          if (!values.school) errors.name = "Enter school";
-          if (!values.number) errors.name = "Enter your team number";
+          if (!values.school) errors.school = "Enter school";
+          if (!values.number) errors.number = "Enter your team number";
           return errors;
         }}
         initialValues={team!}
         onSubmit={async (values, { setSubmitting }) => {
-          let data = new FormData();
-          data.append("id", String(values.id));
-          data.append("name", values.name);
-          data.append("school", String(values.school));
-          data.append("number", String(values.number));
-          await updateTeam(data);
+          await updateTeam(values);
           router.push("/team");
           setSubmitting(false);
         }}
@@ -123,10 +120,10 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   const { id }: any = context.query;
   if (id) {
-    const product = await getTeam(id);
+    const team = await getTeam(id);
     return {
       props: {
-        product,
+        team,
       },
     };
   } else {

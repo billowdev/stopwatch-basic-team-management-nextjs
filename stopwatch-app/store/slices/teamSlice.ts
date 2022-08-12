@@ -11,6 +11,15 @@ const initialState: TeamState = {
   teams: [],
 };
 
+export const getTeam = createAsyncThunk(
+  "team/getById",
+  async (id: any) => {
+    return await teamService.getTeam(id);
+  }
+);
+
+
+
 export const getTeams = createAsyncThunk(
   "team/get",
   async () => {
@@ -34,11 +43,15 @@ const teamSlice = createSlice({
     builder.addCase(getTeams.fulfilled, (state, action) => {
       state.teams = action.payload;
     });
+    builder.addCase(getTeam.fulfilled, (state, action) => {
+      state.teams = action.payload;
+    });
   },
 });
 
 
 export const teamSelector = (store: RootState): TeamData[] | undefined =>
-store.team.teams;
+  store.team.teams;
+
 
 export default teamSlice.reducer;

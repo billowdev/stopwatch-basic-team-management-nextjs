@@ -130,17 +130,17 @@ const TeamPage = ({}: Props) => {
     {
       field: "number",
       headerName: "หมายเลขทีม",
-      width: 150,
+      width: 90,
     },
     {
       field: "name",
       headerName: "ชื่อทีม",
-      width: 150,
+      width: 200,
     },
     {
       field: "school",
       headerName: "โรงเรียน",
-      width: 150,
+      width: 240,
     },
     {
       headerName: "วันที่สมัคร",
