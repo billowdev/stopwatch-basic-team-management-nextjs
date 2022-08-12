@@ -17,6 +17,13 @@ router.post("/", async (req, res) => {
 	return res.json(team)
 });
 
+router.post("/bulk", async (req, res) => {
+	const team = await teamService.createBulkTeam(req.body)
+	return res.json(team)
+});
+
+
+
 router.patch("/", async (req, res) => {
 	const teams = await teamService.updateTeam(req.body)
 	return res.json(teams)

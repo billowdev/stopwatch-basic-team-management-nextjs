@@ -71,7 +71,7 @@ const StopWatch = ({}: Props) => {
   };
 
   const resetButton = () => {
-    var element = document.getElementById("timer");
+    resetAudio.play();
     setStart(false);
     setReset(true);
     setTimer(0);

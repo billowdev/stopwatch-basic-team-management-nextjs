@@ -11,7 +11,7 @@ import { useAppDispatch } from "@/store/store";
 import {
   deleteHistory,
   getHistories,
-  historySelector,
+  historiesSelector,
 } from "@/store/slices/historySlice";
 import { useSelector } from "react-redux";
 import {
@@ -53,7 +53,7 @@ type Props = {};
 
 const HistoryPage = ({}: Props) => {
   const dispatch = useAppDispatch();
-  const historyList = useSelector(historySelector);
+  const historyList = useSelector(historiesSelector);
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
   const [selectedHistory, setSelectedHistory] =
     React.useState<HistoryData | null>(null);
@@ -78,7 +78,6 @@ const HistoryPage = ({}: Props) => {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-        
           <br />
           Confirm to delete the history? : {selectedHistory.id}
         </DialogTitle>
@@ -111,7 +110,7 @@ const HistoryPage = ({}: Props) => {
     {
       field: "time",
       headerName: "Time",
-      width: 350,
+      width: 200,
     },
     {
       headerName: "TIME",
@@ -129,13 +128,13 @@ const HistoryPage = ({}: Props) => {
       width: 120,
       renderCell: ({ row }: GridRenderCellParams<string>) => (
         <Stack direction="row">
-          <IconButton
+          {/* <IconButton
             aria-label="edit"
             size="large"
             onClick={() => router.push("/history/edit?id=" + row.id)}
           >
             <EditIcon fontSize="inherit" />
-          </IconButton>
+          </IconButton> */}
           <IconButton
             aria-label="delete"
             size="large"

@@ -1,6 +1,6 @@
 export interface HistoryData {
 	id?: string;
-	time?: string;
+	timestamp?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
 	TeamId?: string;

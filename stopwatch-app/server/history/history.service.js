@@ -2,7 +2,7 @@ const { History } = require("../models");
 
 exports.getHistories = async () => {
 	try {
-		return await History.findAll({ order: Sequelize.literal("id DESC") })
+		return await History.findAll()
 	} catch (error) {
 		throw new Error()
 	}
@@ -26,6 +26,14 @@ exports.getAllByTeam = async (teamId) => {
 exports.createHistory = async (body) => {
 	try {
 		return await History.create(body)
+	} catch (error) {
+		throw new Error()
+	}
+}
+
+exports.createBulkHistory = async (body) => {
+	try {
+		return await History.bulkCreate(body)
 	} catch (error) {
 		throw new Error()
 	}

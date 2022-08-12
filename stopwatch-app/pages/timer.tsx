@@ -37,18 +37,18 @@ const Timer = () => {
 
   useEffect(() => {
     if (firstStart.current) {
-      console.log("first render, don't run useEffect for timer");
+      // console.log("first render, don't run useEffect for timer");
       firstStart.current = !firstStart.current;
       return;
     }
-    console.log("subsequent renders");
-    console.log(start);
+    // console.log("subsequent renders");
+    // console.log(start);
     if (start) {
       tick.current = setInterval(() => {
         setTimer((timer) => timer - 1);
       }, 1000);
     } else {
-      console.log("clear interval");
+      // console.log("clear interval");
       clearInterval(tick.current);
     }
 
@@ -103,8 +103,8 @@ const Timer = () => {
   const dispSecondsAsMins = (seconds: any) => {
     const mins = Math.floor(seconds / 60);
     const seconds_ = seconds % 60;
-    console.log(seconds_);
-    console.log(mins);
+    // console.log(seconds_);
+    // console.log(mins);
 
     if (start) {
       const element = document.getElementById("timer");

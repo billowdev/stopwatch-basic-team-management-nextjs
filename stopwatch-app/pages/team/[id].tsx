@@ -12,22 +12,28 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { getHistory } from "@/services/historyService";
+import { HistoryData } from "@/models/history.model";
+import { useAppDispatch } from "@/store/store";
+import { createHistory } from "@/store/slices/historySlice";
 
 type Props = {
   team: TeamData;
+  history: HistoryData;
 };
 
-const TeamInterface = ({ team }: Props) => {
+const TeamInterface = ({ team, history }: Props) => {
   const [stopwatch, setStopwatch] = useState(0);
   const [start, setStart] = useState(false);
   const [reset, setReset] = useState(false);
   const firstStart: any = useRef(true);
   const tick: any = useRef();
+  const dispatch = useAppDispatch();
 
-  const [audio] = useState(
-    typeof Audio !== "undefined" &&
-      new Audio("/static/sound/mixkit-racing-countdown-timer-1051.mp3")
-  );
+  // const [audio] = useState(
+  //   typeof Audio !== "undefined" &&
+  //     new Audio("/static/sound/mixkit-racing-countdown-timer-1051.mp3")
+  // );
 
   const [startAudio] = useState(
     typeof Audio !== "undefined" &&
@@ -83,10 +89,14 @@ const TeamInterface = ({ team }: Props) => {
     setStopwatch(0);
   };
 
-  const timeStampHandle = () => {
-	const timestamp = String(stopwatch)
-	console.log(timestamp);
-	
+  const timeStampHandle = async () => {
+    const timeStamp = String(stopwatch);
+    const create = await dispatch(createHistory(team.id, timeStamp));
+    if (create.meta.requestStatus === "rejected") {
+      alert("timestap failed");
+    } else {
+      alert("timestap successfuly");
+    }
   };
 
   const handleUserKeyPress = useCallback((event: any) => {
@@ -103,18 +113,17 @@ const TeamInterface = ({ team }: Props) => {
 
   useEffect(() => {
     if (firstStart.current) {
-      console.log("first render, don't run useEffect for Stopwatch");
+      // console.log("first render, don't run useEffect for Stopwatch");
       firstStart.current = !firstStart.current;
       return;
     }
-    console.log("subsequent renders");
-    console.log(start);
+    // console.log("subsequent renders");
+    // console.log(start);
     if (start) {
       tick.current = setInterval(() => {
         setStopwatch((stopwatch) => stopwatch + 1);
       }, 1000);
     } else {
-      console.log("clear interval");
       clearInterval(tick.current);
     }
 
@@ -130,22 +139,26 @@ const TeamInterface = ({ team }: Props) => {
 
   return (
     <Layout>
-      <h2>
-        คุณกำลังอยู่ใน อินเทอร์เฟส ของทีม {team.name} ซึ่งเป็นทีมที่{" "}
-        {team.number} จากโรงเรียน {team.school}
-      </h2>
-      <Box>
-        <h3>เวลาที่ใช้ในรอบปัจจุบัน {stopwatch} วินาที</h3>
-        {stopwatch < 3 ? (
-          <Button variant="contained" disabled>
-            บันทึกเวลา
-          </Button>
-        ) : (
-          <Button variant="contained" onClick={timeStampHandle}>
-            บันทึกเวลา
-          </Button>
-        )}
-      </Box>
+      {team && (
+        <>
+          <h2>
+            คุณกำลังอยู่ใน อินเทอร์เฟส ของทีม {team.name} ซึ่งเป็นทีมที่{" "}
+            {team.number} จากโรงเรียน {team.school}
+          </h2>
+          <Box>
+            <h3>เวลาที่ใช้ในรอบปัจจุบัน {stopwatch} วินาที</h3>
+            {stopwatch < 3 ? (
+              <Button variant="contained" disabled>
+                บันทึกเวลา
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={timeStampHandle}>
+                บันทึกเวลา
+              </Button>
+            )}
+          </Box>
+        </>
+      )}
       {/* <Button variant="outlined">Outlined</Button> */}
 
       <div className="Stopwatch text-align-center">
@@ -191,9 +204,11 @@ export const getServerSideProps: GetServerSideProps = async (
   const { id }: any = context.params;
   if (id) {
     const team = await getTeam(id);
+    const history = await getHistory(id);
     return {
       props: {
         team,
+        history,
       },
     };
   } else {

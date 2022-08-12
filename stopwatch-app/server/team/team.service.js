@@ -24,6 +24,14 @@ exports.createTeam = async (body) => {
 	}
 }
 
+exports.createBulkTeam = async (body) => {
+	try {
+		return await Team.bulkCreate(body)
+	} catch (error) {
+		throw new Error()
+	}
+}
+
 exports.updateTeam = async (body) => {
 	try {
 		return await Team.update({ ...body }, { where: { id: body?.id } })

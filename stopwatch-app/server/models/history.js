@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 			defaultValue: DataTypes.UUIDV1,
 		},
-		time: {
+		timestamp: {
 			type: DataTypes.STRING,
 			allowNull: true,
 		},

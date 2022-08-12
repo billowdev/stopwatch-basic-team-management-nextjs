@@ -1,12 +1,9 @@
 import { HistoryData } from "@/models/history.model";
 import httpClient from "@/utils/httpClient";
 
-export const getHistories = async (keyword?: string): Promise<HistoryData[]> => {
-	if (keyword) {
-		return (await httpClient.get(`/history/keyword/${keyword}`)).data;
-	} else {
-		return (await httpClient.get(`/history`)).data;
-	}
+export const getHistories = async (): Promise<HistoryData[]> => {
+	const response = await httpClient.get(`/history`)
+	return response.data;
 };
 
 export const getHistory = async (id: string) => {
@@ -14,7 +11,7 @@ export const getHistory = async (id: string) => {
 	return response.data;
 };
 
-export const createHistory = async (data: FormData): Promise<void> => {
+export const createHistory = async (data: any): Promise<any> => {
 	await httpClient.post(`/history`, data);
 };
 

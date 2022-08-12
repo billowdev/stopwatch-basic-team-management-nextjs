@@ -25,6 +25,11 @@ router.post("/", async (req, res) => {
 	return res.json(history)
 });
 
+router.post("/bulk", async (req, res) => {
+	const history = await historyService.createBulkHistory(req.body)
+	return res.json(history)
+});
+
 router.delete("/:id", async (req, res) => {
 	const resp = await historyService.deleteHistory(req.params.id)
 	return res.json({ success: true, msg: "delete successfuly", data: resp }

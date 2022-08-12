@@ -1,12 +1,12 @@
 import React from "react";
-import TeamPage from "./team";
+import Timer from "./timer";
 
 type Props = {};
 
 const Index = ({}: Props) => {
   return (
     <>
-      <TeamPage />
+      <Timer />
     </>
   );
 };

@@ -5,16 +5,25 @@ import * as historyService from "@/services/historyService"
 
 interface HistoryState {
   histories: HistoryData[];
+  history: HistoryData
 }
 
 const initialState: HistoryState = {
   histories: [],
+  history: {}
 };
 
 export const getHistories = createAsyncThunk(
   "history/get",
-  async (keyword?: string) => {
-    return await historyService.getHistories(keyword);
+  async () => {
+    return await historyService.getHistories();
+  }
+);
+
+export const createHistory = createAsyncThunk(
+  "history/create",
+  async (TeamId: any, timestamp: any) => {
+    return await historyService.createHistory({ TeamId, timestamp});
   }
 );
 
@@ -34,10 +43,14 @@ const historySlice = createSlice({
     builder.addCase(getHistories.fulfilled, (state, action) => {
       state.histories = action.payload;
     });
+    builder.addCase(createHistory.fulfilled, (state, action) => {
+      state.history = action.payload;
+    });
   },
 });
 
 
-export const historySelector = (store: RootState): HistoryData[] | undefined => store.history.histories
+export const historiesSelector = (store: RootState): HistoryData[] | undefined => store.history.histories
+export const historySelector = (store: RootState): HistoryData | undefined => store.history.history
 
 export default historySlice.reducer;
