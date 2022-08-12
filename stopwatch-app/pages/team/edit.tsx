@@ -14,8 +14,6 @@ import { TextField } from "formik-material-ui";
 import {
   GetServerSideProps,
   GetServerSidePropsContext,
-  GetStaticPaths,
-  GetStaticProps,
 } from "next";
 import Link from "next/link";
 import React, { useEffect } from "react";
@@ -29,8 +27,6 @@ type Props = {
 const Edit = ({ team }: Props) => {
   const router = useRouter();
   const showForm = ({
-    values,
-    setFieldValue,
     isValid,
   }: FormikProps<TeamData>) => {
     return (

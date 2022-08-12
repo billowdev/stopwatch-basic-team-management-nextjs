@@ -1,5 +1,7 @@
 import Layout from "@/components/Layouts/Layout";
 import { TeamData } from "@/models/team.model";
+import { getTeam } from "@/services/teamService";
+import { GetServerSideProps, GetServerSidePropsContext } from "next/types";
 import React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -11,8 +13,12 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-const StopWatch = ({}: Props) => {
-  const [timer, setTimer] = useState(0);
+type Props = {
+  team: TeamData;
+};
+
+const TeamInterface = ({ team }: Props) => {
+  const [stopwatch, setStopwatch] = useState(0);
   const [start, setStart] = useState(false);
   const [reset, setReset] = useState(false);
   const firstStart: any = useRef(true);
@@ -49,7 +55,7 @@ const StopWatch = ({}: Props) => {
     const seconds_ = seconds % 60;
 
     if (start) {
-      var element = document.getElementById("timer");
+      var element = document.getElementById("stopwatch");
       element?.classList.remove("blink_me");
     }
 
@@ -63,7 +69,7 @@ const StopWatch = ({}: Props) => {
 
   const toggleStart = () => {
     resetAudio.play();
-    if (timer === 0) {
+    if (stopwatch === 0) {
       startAudio.play();
     }
     setReset(false);
@@ -71,10 +77,16 @@ const StopWatch = ({}: Props) => {
   };
 
   const resetButton = () => {
-    var element = document.getElementById("timer");
+    var element = document.getElementById("stopwatch");
     setStart(false);
     setReset(true);
-    setTimer(0);
+    setStopwatch(0);
+  };
+
+  const timeStampHandle = () => {
+	const timestamp = String(stopwatch)
+	console.log(timestamp);
+	
   };
 
   const handleUserKeyPress = useCallback((event: any) => {
@@ -84,14 +96,14 @@ const StopWatch = ({}: Props) => {
       resetAudio.play();
     }
     if (key === "0") {
-      setTimer(0);
+      setStopwatch(0);
       resetAudio.play();
     }
   }, []);
 
   useEffect(() => {
     if (firstStart.current) {
-      console.log("first render, don't run useEffect for timer");
+      console.log("first render, don't run useEffect for Stopwatch");
       firstStart.current = !firstStart.current;
       return;
     }
@@ -99,7 +111,7 @@ const StopWatch = ({}: Props) => {
     console.log(start);
     if (start) {
       tick.current = setInterval(() => {
-        setTimer((timer) => timer + 1);
+        setStopwatch((stopwatch) => stopwatch + 1);
       }, 1000);
     } else {
       console.log("clear interval");
@@ -118,23 +130,36 @@ const StopWatch = ({}: Props) => {
 
   return (
     <Layout>
-      <Typography align="center" variant="h4" sx={{ mt: 1 }}>
-        นาฬิกาจับเวลา
-      </Typography>
+      <h2>
+        คุณกำลังอยู่ใน อินเทอร์เฟส ของทีม {team.name} ซึ่งเป็นทีมที่{" "}
+        {team.number} จากโรงเรียน {team.school}
+      </h2>
+      <Box>
+        <h3>เวลาที่ใช้ในรอบปัจจุบัน {stopwatch} วินาที</h3>
+        {stopwatch < 3 ? (
+          <Button variant="contained" disabled>
+            บันทึกเวลา
+          </Button>
+        ) : (
+          <Button variant="contained" onClick={timeStampHandle}>
+            บันทึกเวลา
+          </Button>
+        )}
+      </Box>
+      {/* <Button variant="outlined">Outlined</Button> */}
 
-      <div className="Timer text-align-center">
+      <div className="Stopwatch text-align-center">
         <ThemeProvider theme={theme}>
           <Typography
-            id="timer"
+            id="stopwatch"
             align="center"
             sx={{ mt: -15, mb: -10, color: "black", fontWeight: 400 }}
           >
-            {dispSecondsAsMins(timer)}
+            {dispSecondsAsMins(stopwatch)}
           </Typography>
           <Box align="center">
             <Button onClick={resetButton}> RESET </Button>
             <Button sx={{ mx: 10 }} onClick={toggleStart}>
-              {" "}
               {!start ? "START" : "STOP"}
             </Button>
           </Box>
@@ -158,4 +183,20 @@ const StopWatch = ({}: Props) => {
     </Layout>
   );
 };
-export default StopWatch;
+export default TeamInterface;
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { id }: any = context.params;
+  if (id) {
+    const team = await getTeam(id);
+    return {
+      props: {
+        team,
+      },
+    };
+  } else {
+    return { props: {} };
+  }
+};

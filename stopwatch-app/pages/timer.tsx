@@ -56,36 +56,40 @@ const Timer = () => {
   }, [start]);
 
   const toggleStart = () => {
-    resetAudio.play()
+    resetAudio.play();
 
-    if(timer === 600){
-      startAudio.play()
+    if (timer === 600) {
+      startAudio.play();
     }
     setReset(false);
     if (timer === 0) {
-      startAudio.play()
+      startAudio.play();
       setTimer(600);
     }
     setStart(!start);
   };
 
   const resetButton = () => {
-    resetAudio.play()
+    const element = document.getElementById("timer");
+    element?.classList.remove("blink_me");
+
+    resetAudio.play();
     setStart(false);
     setReset(true);
     setTimer(600);
   };
 
-  const [userText, setUserText] = useState("");
   const handleUserKeyPress = useCallback((event: any) => {
     const { key, keyCode } = event;
     if (keyCode === 33) {
       setStart(!start);
-      continueAudio.play()
+      resetAudio.play();
     }
     if (key === "0") {
       setTimer(600);
-      resetAudio.play()
+      const element = document.getElementById("timer");
+      element?.classList.remove("blink_me");
+      resetAudio.play();
     }
   }, []);
 
@@ -102,26 +106,29 @@ const Timer = () => {
     console.log(seconds_);
     console.log(mins);
 
-    if (start || reset) {
-      var element = document.getElementById("timer");
+    if (start) {
+      const element = document.getElementById("timer");
       element?.classList.remove("blink_me");
     }
 
     if (mins === -1 && seconds_ === -1) {
-      var element = document.getElementById("timer");
+      const element = document.getElementById("timer");
       element?.classList.add("blink_me");
       setStart(false);
       setTimer(0);
       PlayAudio();
     }
     return (
-      mins.toString() + ":" + (seconds_ == -1 ? "00" : seconds_.toString())
+      (mins === 10 ? "" : "0") +
+      mins.toString() +
+      ":" +
+      (seconds_ == -1 ? "00" : (seconds_ < 10 ? "0" : "") + seconds_.toString())
     );
   };
 
   let theme = createTheme({
     typography: {
-      fontSize: 500,
+      fontSize: 400,
       button: {
         fontSize: 90,
       },
@@ -133,6 +140,10 @@ const Timer = () => {
   return (
     <Layout>
       <div className="Timer text-align-center">
+        <Typography align="center" variant="h4" sx={{ mt: 1 }}>
+          นาฬิกานับถอยหลัง 10 นาที
+        </Typography>
+
         <ThemeProvider theme={theme}>
           <Typography
             id="timer"

@@ -178,7 +178,7 @@ const TeamPage = ({}: Props) => {
           <IconButton
             aria-label="start"
             size="large"
-            onClick={() => router.push("/team/start?id=" + row.id)}
+            onClick={() => router.push("/team/" + row.id)}
           >
             <PlayCircleFilledWhiteIcon fontSize="inherit" />
           </IconButton>
