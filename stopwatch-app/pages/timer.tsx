@@ -10,11 +10,30 @@ import Typography from "@mui/material/Typography";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const Timer = () => {
-  const [timer, setTimer] = useState(3); // 25 minutes
+  const [timer, setTimer] = useState(600); // 10 minutes
   const [start, setStart] = useState(false);
   const [reset, setReset] = useState(false);
   const firstStart: any = useRef(true);
   const tick: any = useRef();
+
+  const [audio] = useState(
+    typeof Audio !== "undefined" &&
+      new Audio("/static/sound/mixkit-racing-countdown-timer-1051.mp3")
+  );
+
+  const [startAudio] = useState(
+    typeof Audio !== "undefined" &&
+      new Audio("/static/sound/mixkit-water-sci-fi-bleep-902.mp3")
+  );
+
+  const [resetAudio] = useState(
+    typeof Audio !== "undefined" &&
+      new Audio("/static/sound/mixkit-hard-click-1118.mp3")
+  );
+
+  const PlayAudio = async () => {
+    audio.play();
+  };
 
   useEffect(() => {
     if (firstStart.current) {
@@ -37,16 +56,23 @@ const Timer = () => {
   }, [start]);
 
   const toggleStart = () => {
-    setReset(false)
-    if(timer ===0){
-      setTimer(600)
+    resetAudio.play()
+
+    if(timer === 600){
+      startAudio.play()
+    }
+    setReset(false);
+    if (timer === 0) {
+      startAudio.play()
+      setTimer(600);
     }
     setStart(!start);
   };
 
   const resetButton = () => {
+    resetAudio.play()
     setStart(false);
-    setReset(true)
+    setReset(true);
     setTimer(600);
   };
 
@@ -55,9 +81,11 @@ const Timer = () => {
     const { key, keyCode } = event;
     if (keyCode === 33) {
       setStart(!start);
+      continueAudio.play()
     }
     if (key === "0") {
       setTimer(600);
+      resetAudio.play()
     }
   }, []);
 
@@ -74,7 +102,7 @@ const Timer = () => {
     console.log(seconds_);
     console.log(mins);
 
-    if (start | reset){
+    if (start || reset) {
       var element = document.getElementById("timer");
       element?.classList.remove("blink_me");
     }
@@ -84,7 +112,8 @@ const Timer = () => {
       element?.classList.add("blink_me");
       setStart(false);
       setTimer(0);
-    } 
+      PlayAudio();
+    }
     return (
       mins.toString() + ":" + (seconds_ == -1 ? "00" : seconds_.toString())
     );
