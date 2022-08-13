@@ -1,7 +1,6 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Grid, Link } from "@material-ui/core";
 import { Info, Security } from "@mui/icons-material";
-// import { Security, Info } from "@material-ui/icons";
 
 const Footer = () => (
   <>

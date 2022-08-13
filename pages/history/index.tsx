@@ -6,6 +6,7 @@ import {
   GridRenderCellParams,
   GridToolbarContainer,
   GridToolbarFilterButton,
+  GridValueGetterParams,
 } from "@mui/x-data-grid";
 import { useAppDispatch } from "@/store/store";
 import {
@@ -38,7 +39,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { HistoryData } from "@/models/history.model";
 import { TransitionProps } from "@mui/material/transitions";
 import Link from "next/link";
-
+import { TeamData } from "@/models/team.model";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -106,15 +107,35 @@ const HistoryPage = ({}: Props) => {
   };
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 280 },
+    // { field: "id", headerName: "ID", width: 280 },
+    {
+      field: "TeamSchool",
+      valueGetter: (params) => {
+        return params.row.team.school
+      },
+      headerName: "โรงเรียน",
+      width: 100,
+      renderCell: ({ value }: GridRenderCellParams<string>) => (
+        <Typography variant="body1">{value}</Typography>
+      ),
+    },
+    {
+      field: "Team",
+      valueGetter: (params: GridValueGetterParams<any, TeamData>) => {
+        return params.getValue(params.id, "team").name;
+      },
+      headerName: "ทีม",
+      width: 100,
+      renderCell: ({ value }: GridRenderCellParams<string>) => (
+        <Typography variant="body1">{value}</Typography>
+      ),
+    },
     {
       field: "timestamp",
       headerName: "บันทึกเวลา (วินาที)",
       width: 200,
       renderCell: ({ value }: GridRenderCellParams<string>) => (
-        <Typography variant="body1">
-          {value}
-        </Typography>
+        <Typography variant="body1">{value}</Typography>
       ),
     },
     {
