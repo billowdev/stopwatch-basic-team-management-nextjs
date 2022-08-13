@@ -130,15 +130,18 @@ const TeamPage = ({}: Props) => {
     {
       field: "number",
       headerName: "หมายเลขทีม",
+      // editable: true,
       width: 90,
     },
     {
       field: "name",
+      // editable: true,
       headerName: "ชื่อทีม",
       width: 200,
     },
     {
       field: "school",
+      // editable: true,
       headerName: "โรงเรียน",
       width: 240,
     },

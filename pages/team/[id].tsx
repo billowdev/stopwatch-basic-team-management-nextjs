@@ -16,7 +16,11 @@ import Typography from "@mui/material/Typography";
 import { getHistory, getHistoryByTeamId } from "@/services/historyService";
 import { HistoryData } from "@/models/history.model";
 import { useAppDispatch } from "@/store/store";
-import { createTeamHistory } from "@/store/slices/historySlice";
+import {
+  createTeamHistory,
+  fetchHistoryByTeamId,
+} from "@/store/slices/historySlice";
+import { useRouter } from "next/router";
 
 type Props = {
   team: TeamData;
@@ -24,13 +28,14 @@ type Props = {
 };
 
 const TeamInterface = ({ team, histories }: Props) => {
+  const router = useRouter();
   const [stopwatch, setStopwatch] = useState(0);
   const [start, setStart] = useState(false);
   const [reset, setReset] = useState(false);
   const firstStart: any = useRef(true);
   const tick: any = useRef();
   const dispatch = useAppDispatch();
-
+  const [historyState, setHistoryState] = useState(histories);
   // const [audio] = useState(
   //   typeof Audio !== "undefined" &&
   //     new Audio("/static/sound/mixkit-racing-countdown-timer-1051.mp3")
@@ -96,6 +101,12 @@ const TeamInterface = ({ team, histories }: Props) => {
     if (create.meta.requestStatus === "rejected") {
       alert("timestap failed");
     } else {
+      const teamId = router.query.id;
+      await dispatch(fetchHistoryByTeamId(String(teamId))).then((resp) => {
+        if (resp.meta.requestStatus === "fulfilled") {
+          setHistoryState(resp.payload);
+        }
+      });
       alert("timestap successfuly");
     }
   };
@@ -185,7 +196,7 @@ const TeamInterface = ({ team, histories }: Props) => {
 
             <Divider />
             <Box sx={{ mt: 2 }}>
-              {histories.map((history, idx) => (
+              {historyState.map((history, idx) => (
                 <Typography key={idx} variant="h5">
                   ครั้งที่ {idx + 1} ---- {history.timestamp} วินาที
                 </Typography>
@@ -220,7 +231,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const { id }: any = context.params;
   if (id) {
     const team = await getTeam(id);
-    const histories = await getHistoryByTeamId(id);
+    let histories = await getHistoryByTeamId(id);
     return {
       props: {
         team,
