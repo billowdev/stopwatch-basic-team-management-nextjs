@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Header from "@/components/Layouts/Header";
 import Menu from "@/components/Layouts/Menu";
+import Footer from "../Footer";
 
 const drawerWidth = 240;
 
@@ -24,6 +25,7 @@ export default function Layout({ children }: LayoutProps) {
   const [open, setOpen] = React.useState(true);
 
   return (
+    <>
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <Header open={open} onDrawerOpen={() => setOpen(true)} />
@@ -33,5 +35,7 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </Box>
     </Box>
+      <Footer />
+    </>
   );
 }

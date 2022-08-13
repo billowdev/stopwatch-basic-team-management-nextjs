@@ -20,6 +20,15 @@ export const getHistories = createAsyncThunk(
   }
 );
 
+
+
+export const fetchHistoryByTeamId = createAsyncThunk(
+  "history/fetch/teamId",
+  async (TeamId: string) => {
+    return await historyService.getHistoryByTeamId(TeamId);
+  }
+);
+
 export const createTeamHistory = createAsyncThunk(
   "history/create",
   async (data: any) => {
@@ -46,6 +55,11 @@ const historySlice = createSlice({
     builder.addCase(createTeamHistory.fulfilled, (state, action) => {
       state.history = action.payload;
     });
+
+    builder.addCase(fetchHistoryByTeamId.fulfilled, (state, action) => {
+      state.history = action.payload;
+    });
+    
   },
 });
 

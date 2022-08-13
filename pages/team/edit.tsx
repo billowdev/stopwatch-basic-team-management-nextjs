@@ -11,10 +11,7 @@ import {
 } from "@mui/material";
 import { Field, Form, Formik, FormikProps } from "formik";
 import { TextField } from "formik-material-ui";
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-} from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import Image from "next/image";
@@ -26,15 +23,13 @@ type Props = {
 
 const Edit = ({ team }: Props) => {
   const router = useRouter();
-  const showForm = ({
-    isValid,
-  }: FormikProps<TeamData>) => {
+  const showForm = ({ isValid }: FormikProps<TeamData>) => {
     return (
       <Form>
         <Card>
           <CardContent sx={{ padding: 4 }}>
             <Typography gutterBottom variant="h3">
-            แก้ไขข้อมูลทีม
+              แก้ไขข้อมูลทีม
             </Typography>
 
             <Field
@@ -43,7 +38,7 @@ const Edit = ({ team }: Props) => {
               component={TextField}
               name="name"
               type="text"
-              label="Name"
+              label="ชื่อทีม"
             />
             <br />
             <Field
@@ -52,7 +47,7 @@ const Edit = ({ team }: Props) => {
               component={TextField}
               name="school"
               type="text"
-              label="School"
+              label="โรงเรียน"
             />
 
             <Field
@@ -61,7 +56,7 @@ const Edit = ({ team }: Props) => {
               component={TextField}
               name="number"
               type="text"
-              label="Number"
+              label="หมายเลขทีม"
             />
           </CardContent>
           <CardActions>
@@ -91,14 +86,15 @@ const Edit = ({ team }: Props) => {
       <Formik
         validate={(values) => {
           let errors: any = {};
-          if (!values.name) errors.name = "Enter name";
-          if (!values.school) errors.school = "Enter school";
-          if (!values.number) errors.number = "Enter your team number";
+          if (!values.name) errors.name = "กรุณากรอกชื่อทีม";
+          if (!values.school) errors.school = "กรุณากรอกชื่อโรงเรียน";
+          if (!values.number) errors.number = "กรุณาระบุหมายเลขทีม";
           return errors;
         }}
         initialValues={team!}
         onSubmit={async (values, { setSubmitting }) => {
-          await updateTeam(values);
+          const TeamId = router.query.id;
+          await updateTeam({ id: TeamId, ...values });
           router.push("/team");
           setSubmitting(false);
         }}

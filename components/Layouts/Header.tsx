@@ -5,11 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Badge, Box, Menu, MenuItem } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import { useAppDispatch } from "@/store/store";
+import { Box } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -41,13 +37,6 @@ type HeaderProp = {
 };
 
 export default function Header({ open, onDrawerOpen }: HeaderProp) {
-  const [showProfileMenu, setShowProfileMenu] = React.useState(false);
-  const dispatch = useAppDispatch();
-
-  const handleClose = () => {
-    setShowProfileMenu(false);
-  };
-
   return (
     <AppBar position="fixed" open={open}>
       <Toolbar>

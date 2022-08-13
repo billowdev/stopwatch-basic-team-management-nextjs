@@ -8,21 +8,22 @@ import {
   Box,
   Button,
   createTheme,
+  Divider,
   responsiveFontSizes,
   ThemeProvider,
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { getHistory } from "@/services/historyService";
+import { getHistory, getHistoryByTeamId } from "@/services/historyService";
 import { HistoryData } from "@/models/history.model";
 import { useAppDispatch } from "@/store/store";
 import { createTeamHistory } from "@/store/slices/historySlice";
 
 type Props = {
   team: TeamData;
-  history: HistoryData;
+  histories: HistoryData[];
 };
 
-const TeamInterface = ({ team, history }: Props) => {
+const TeamInterface = ({ team, histories }: Props) => {
   const [stopwatch, setStopwatch] = useState(0);
   const [start, setStart] = useState(false);
   const [reset, setReset] = useState(false);
@@ -90,7 +91,7 @@ const TeamInterface = ({ team, history }: Props) => {
   };
 
   const timeStampHandle = async () => {
-    const data = {TeamId: team.id, timestamp:  String(stopwatch)}
+    const data = { TeamId: team.id, timestamp: String(stopwatch) };
     const create = await dispatch(createTeamHistory(data));
     if (create.meta.requestStatus === "rejected") {
       alert("timestap failed");
@@ -113,12 +114,10 @@ const TeamInterface = ({ team, history }: Props) => {
 
   useEffect(() => {
     if (firstStart.current) {
-      // console.log("first render, don't run useEffect for Stopwatch");
       firstStart.current = !firstStart.current;
       return;
     }
-    // console.log("subsequent renders");
-    // console.log(start);
+
     if (start) {
       tick.current = setInterval(() => {
         setStopwatch((stopwatch) => stopwatch + 1);
@@ -170,13 +169,30 @@ const TeamInterface = ({ team, history }: Props) => {
           >
             {dispSecondsAsMins(stopwatch)}
           </Typography>
-          <Box >
+          <Box>
             <Button onClick={resetButton}> RESET </Button>
             <Button sx={{ mx: 10 }} onClick={toggleStart}>
               {!start ? "START" : "STOP"}
             </Button>
           </Box>
         </ThemeProvider>
+
+        {histories && (
+          <>
+            <Typography variant="h4" sx={{ mt: 3 }}>
+              ประวัติการบันทึกเวลา{" "}
+            </Typography>
+
+            <Divider />
+            <Box sx={{ mt: 2 }}>
+              {histories.map((history, idx) => (
+                <Typography key={idx} variant="h5">
+                  ครั้งที่ {idx + 1} ---- {history.timestamp} วินาที
+                </Typography>
+              ))}
+            </Box>
+          </>
+        )}
 
         <style jsx global>
           {`
@@ -204,11 +220,11 @@ export const getServerSideProps: GetServerSideProps = async (
   const { id }: any = context.params;
   if (id) {
     const team = await getTeam(id);
-    const history = await getHistory(id);
+    const histories = await getHistoryByTeamId(id);
     return {
       props: {
         team,
-        history,
+        histories,
       },
     };
   } else {

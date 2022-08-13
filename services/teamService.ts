@@ -11,12 +11,12 @@ export const getTeam = async (id: string) => {
 	return response.data;
 };
 
-export const createTeam = async (data: FormData): Promise<void> => {
+export const createTeam = async (data: TeamData): Promise<any> => {
 	await httpClient.post(`/team`, data);
 };
 
 export const updateTeam = async (data: any): Promise<void> => {
-	await httpClient.patch(`/team`, data);
+	await httpClient.patch(`/team/${data.id}`, data);
 };
 
 

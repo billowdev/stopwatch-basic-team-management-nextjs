@@ -11,7 +11,13 @@ export const getHistory = async (id: string) => {
 	return response.data;
 };
 
-export const createHistory = async (data: any): Promise<any> => {
+export const getHistoryByTeamId = async (id: string) => {
+	const response = await httpClient.get(`/history/team/${id}`);
+	return response.data;
+};
+
+
+export const createHistory = async (data: HistoryData): Promise<any> => {
 	await httpClient.post(`/history`, data);
 };
 

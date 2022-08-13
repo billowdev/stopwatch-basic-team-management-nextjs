@@ -106,11 +106,16 @@ const HistoryPage = ({}: Props) => {
   };
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 280 },
     {
-      field: "time",
-      headerName: "Time",
+      field: "timestamp",
+      headerName: "บันทึกเวลา (วินาที)",
       width: 200,
+      renderCell: ({ value }: GridRenderCellParams<string>) => (
+        <Typography variant="body1">
+          {value}
+        </Typography>
+      ),
     },
     {
       headerName: "TIME",

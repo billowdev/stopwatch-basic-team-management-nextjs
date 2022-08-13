@@ -31,7 +31,7 @@ const Add = ({}: Props) => {
         <Card>
           <CardContent sx={{ padding: 4 }}>
             <Typography gutterBottom variant="h3">
-              Add Team
+             เพิ่มทีม
             </Typography>
 
             <Field
@@ -40,7 +40,7 @@ const Add = ({}: Props) => {
               component={TextField}
               name="name"
               type="text"
-              label="Name"
+              label="ชื่อทีม"
             />
             <br />
             <Field
@@ -49,7 +49,7 @@ const Add = ({}: Props) => {
               component={TextField}
               name="school"
               type="text"
-              label="School"
+              label="โรงเรียน"
             />
 
             <Field
@@ -58,7 +58,7 @@ const Add = ({}: Props) => {
               component={TextField}
               name="number"
               type="text"
-              label="Number"
+              label="หมายเลขทีม"
             />
 
           </CardContent>
@@ -71,11 +71,11 @@ const Add = ({}: Props) => {
               type="submit"
               sx={{ marginRight: 1 }}
             >
-              Add
+              เพิ่ม
             </Button>
             <Link href="/team" passHref>
               <Button variant="outlined" fullWidth>
-                Cancl
+                ยกเลิก
               </Button>
             </Link>
           </CardActions>
@@ -83,21 +83,6 @@ const Add = ({}: Props) => {
       </Form>
     );
   };
-
-  const showPreviewImage = (values: any) => {
-    if (values.file_obj) {
-      return (
-        <Image
-          objectFit="contain"
-          alt="product image"
-          src={values.file_obj}
-          width={100}
-          height={100}
-        />
-      );
-    }
-  };
-
   const initialValues: TeamData = {
     name: "",
     school: "",
@@ -109,19 +94,15 @@ const Add = ({}: Props) => {
       <Formik
         validate={(values) => {
           let errors: any = {};
-          if (!values.name) errors.name = "Enter name";
-          if (!values.school) errors.name = "Enter school";
-          if (!values.number) errors.name = "Enter your team number";
+          if (!values.name) errors.name = "กรุณากรอกชื่อทีม";
+          if (!values.school) errors.school = "กรุณากรอกชื่อโรงเรียน";
+          if (!values.number) errors.number = "กรุณาระบุหมายเลขทีม";
 
           return errors;
         }}
         initialValues={initialValues}
         onSubmit={async (values, { setSubmitting }) => {
-          let data = new FormData();
-          data.append("name", values.name);
-          data.append("school", String(values.school));
-          data.append("number", String(values.number));
-          await createTeam(data);
+          await createTeam(values);
           router.push("/team");
           setSubmitting(false);
         }}
