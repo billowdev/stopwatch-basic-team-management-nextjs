@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import { getHistory } from "@/services/historyService";
 import { HistoryData } from "@/models/history.model";
 import { useAppDispatch } from "@/store/store";
-import { createHistory } from "@/store/slices/historySlice";
+import { createTeamHistory } from "@/store/slices/historySlice";
 
 type Props = {
   team: TeamData;
@@ -35,15 +35,15 @@ const TeamInterface = ({ team, history }: Props) => {
   //     new Audio("/static/sound/mixkit-racing-countdown-timer-1051.mp3")
   // );
 
-  const [startAudio] = useState(
-    typeof Audio !== "undefined" &&
-      new Audio("/static/sound/mixkit-water-sci-fi-bleep-902.mp3")
-  );
+  // const [startAudio] = useState(
+  //   typeof Audio !== "undefined" &&
+  //     new Audio("/static/sound/mixkit-water-sci-fi-bleep-902.mp3")
+  // );
 
-  const [resetAudio] = useState(
-    typeof Audio !== "undefined" &&
-      new Audio("/static/sound/mixkit-hard-click-1118.mp3")
-  );
+  // const [resetAudio] = useState(
+  //   typeof Audio !== "undefined" &&
+  //     new Audio("/static/sound/mixkit-hard-click-1118.mp3")
+  // );
 
   let theme = createTheme({
     typography: {
@@ -74,9 +74,9 @@ const TeamInterface = ({ team, history }: Props) => {
   };
 
   const toggleStart = () => {
-    resetAudio.play();
+    // resetAudio.play();
     if (stopwatch === 0) {
-      startAudio.play();
+      // startAudio.play();
     }
     setReset(false);
     setStart(!start);
@@ -90,8 +90,8 @@ const TeamInterface = ({ team, history }: Props) => {
   };
 
   const timeStampHandle = async () => {
-    const timeStamp = String(stopwatch);
-    const create = await dispatch(createHistory(team.id, timeStamp));
+    const data = {TeamId: team.id, timestamp:  String(stopwatch)}
+    const create = await dispatch(createTeamHistory(data));
     if (create.meta.requestStatus === "rejected") {
       alert("timestap failed");
     } else {
@@ -103,11 +103,11 @@ const TeamInterface = ({ team, history }: Props) => {
     const { key, keyCode } = event;
     if (keyCode === 33) {
       setStart(!start);
-      resetAudio.play();
+      // resetAudio.play();
     }
     if (key === "0") {
       setStopwatch(0);
-      resetAudio.play();
+      // resetAudio.play();
     }
   }, []);
 
@@ -170,7 +170,7 @@ const TeamInterface = ({ team, history }: Props) => {
           >
             {dispSecondsAsMins(stopwatch)}
           </Typography>
-          <Box align="center">
+          <Box >
             <Button onClick={resetButton}> RESET </Button>
             <Button sx={{ mx: 10 }} onClick={toggleStart}>
               {!start ? "START" : "STOP"}

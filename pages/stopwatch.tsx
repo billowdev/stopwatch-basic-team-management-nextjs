@@ -11,6 +11,10 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
+type Props = {
+
+}
+
 const StopWatch = ({}: Props) => {
   const [timer, setTimer] = useState(0);
   const [start, setStart] = useState(false);
@@ -31,7 +35,7 @@ const StopWatch = ({}: Props) => {
   const [resetAudio] = useState(
     typeof Audio !== "undefined" &&
       new Audio("/static/sound/mixkit-hard-click-1118.mp3")
-  );
+  ) 
 
   let theme = createTheme({
     typography: {
@@ -62,16 +66,16 @@ const StopWatch = ({}: Props) => {
   };
 
   const toggleStart = () => {
-    resetAudio.play();
+    // resetAudio.play();
     if (timer === 0) {
-      startAudio.play();
+      // startAudio.play();
     }
     setReset(false);
     setStart(!start);
   };
 
   const resetButton = () => {
-    resetAudio.play();
+    // resetAudio.play();
     setStart(false);
     setReset(true);
     setTimer(0);
@@ -81,28 +85,28 @@ const StopWatch = ({}: Props) => {
     const { key, keyCode } = event;
     if (keyCode === 33) {
       setStart(!start);
-      resetAudio.play();
+      // resetAudio.play();
     }
     if (key === "0") {
       setTimer(0);
-      resetAudio.play();
+      // resetAudio.play();
     }
   }, []);
 
   useEffect(() => {
     if (firstStart.current) {
-      console.log("first render, don't run useEffect for timer");
+      // console.log("first render, don't run useEffect for timer");
       firstStart.current = !firstStart.current;
       return;
     }
-    console.log("subsequent renders");
-    console.log(start);
+    // console.log("subsequent renders");
+    // console.log(start);
     if (start) {
       tick.current = setInterval(() => {
         setTimer((timer) => timer + 1);
       }, 1000);
     } else {
-      console.log("clear interval");
+      // console.log("clear interval");
       clearInterval(tick.current);
     }
 
@@ -131,7 +135,7 @@ const StopWatch = ({}: Props) => {
           >
             {dispSecondsAsMins(timer)}
           </Typography>
-          <Box align="center">
+          <Box>
             <Button onClick={resetButton}> RESET </Button>
             <Button sx={{ mx: 10 }} onClick={toggleStart}>
               {" "}

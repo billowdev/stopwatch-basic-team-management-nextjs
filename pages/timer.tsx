@@ -16,24 +16,24 @@ const Timer = () => {
   const firstStart: any = useRef(true);
   const tick: any = useRef();
 
-  const [audio] = useState(
-    typeof Audio !== "undefined" &&
-      new Audio("/static/sound/mixkit-racing-countdown-timer-1051.mp3")
-  );
+  // const [audio] = useState(
+  //   typeof Audio !== "undefined" &&
+  //     new Audio("/static/sound/mixkit-racing-countdown-timer-1051.mp3")
+  // );
 
-  const [startAudio] = useState(
-    typeof Audio !== "undefined" &&
-      new Audio("/static/sound/mixkit-water-sci-fi-bleep-902.mp3")
-  );
+  // const [startAudio] = useState(
+  //   typeof Audio !== "undefined" &&
+  //     new Audio("/static/sound/mixkit-water-sci-fi-bleep-902.mp3")
+  // );
 
-  const [resetAudio] = useState(
-    typeof Audio !== "undefined" &&
-      new Audio("/static/sound/mixkit-hard-click-1118.mp3")
-  );
+  // const [resetAudio] = useState(
+  //   typeof Audio !== "undefined" &&
+  //     new Audio("/static/sound/mixkit-hard-click-1118.mp3")
+  // );
 
-  const PlayAudio = async () => {
-    audio.play();
-  };
+  // const PlayAudio = async () => {
+  //   audio.play();
+  // };
 
   useEffect(() => {
     if (firstStart.current) {
@@ -56,14 +56,14 @@ const Timer = () => {
   }, [start]);
 
   const toggleStart = () => {
-    resetAudio.play();
+    // resetAudio.play();
 
     if (timer === 600) {
-      startAudio.play();
+      // startAudio.play();
     }
     setReset(false);
     if (timer === 0) {
-      startAudio.play();
+      // startAudio.play();
       setTimer(600);
     }
     setStart(!start);
@@ -73,7 +73,7 @@ const Timer = () => {
     const element = document.getElementById("timer");
     element?.classList.remove("blink_me");
 
-    resetAudio.play();
+    // resetAudio.play();
     setStart(false);
     setReset(true);
     setTimer(600);
@@ -83,13 +83,13 @@ const Timer = () => {
     const { key, keyCode } = event;
     if (keyCode === 33) {
       setStart(!start);
-      resetAudio.play();
+      // resetAudio.play();
     }
     if (key === "0") {
       setTimer(600);
       const element = document.getElementById("timer");
       element?.classList.remove("blink_me");
-      resetAudio.play();
+      // resetAudio.play();
     }
   }, []);
 
@@ -116,7 +116,7 @@ const Timer = () => {
       element?.classList.add("blink_me");
       setStart(false);
       setTimer(0);
-      PlayAudio();
+      // PlayAudio();
     }
     return (
       (mins === 10 ? "" : "0") +
@@ -152,7 +152,7 @@ const Timer = () => {
           >
             {dispSecondsAsMins(timer)}
           </Typography>
-          <Box align="center">
+          <Box >
             <Button onClick={resetButton}> RESET </Button>
             <Button sx={{ mx: 10 }} onClick={toggleStart}>
               {" "}
