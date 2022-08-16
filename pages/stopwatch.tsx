@@ -6,14 +6,13 @@ import {
   Box,
   Button,
   createTheme,
+  Grid,
   responsiveFontSizes,
   ThemeProvider,
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-type Props = {
-
-}
+type Props = {};
 
 const StopWatch = ({}: Props) => {
   const [timer, setTimer] = useState(0);
@@ -35,7 +34,7 @@ const StopWatch = ({}: Props) => {
   const [resetAudio] = useState(
     typeof Audio !== "undefined" &&
       new Audio("/static/sound/mixkit-hard-click-1118.mp3")
-  ) 
+  );
 
   let theme = createTheme({
     typography: {
@@ -120,6 +119,7 @@ const StopWatch = ({}: Props) => {
     };
   }, [handleUserKeyPress]);
 
+
   return (
     <Layout>
       <Typography align="center" variant="h4" sx={{ mt: 1 }}>
@@ -135,13 +135,14 @@ const StopWatch = ({}: Props) => {
           >
             {dispSecondsAsMins(timer)}
           </Typography>
-          <Box>
+
+          <Box textAlign='center'>
             <Button onClick={resetButton}> RESET </Button>
             <Button sx={{ mx: 10 }} onClick={toggleStart}>
-              {" "}
               {!start ? "START" : "STOP"}
             </Button>
           </Box>
+
         </ThemeProvider>
 
         <style jsx global>

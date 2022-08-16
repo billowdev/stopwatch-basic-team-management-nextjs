@@ -152,7 +152,7 @@ const Timer = () => {
           >
             {dispSecondsAsMins(timer)}
           </Typography>
-          <Box >
+          <Box textAlign='center'>
             <Button onClick={resetButton}> RESET </Button>
             <Button sx={{ mx: 10 }} onClick={toggleStart}>
               {" "}
