@@ -72,6 +72,7 @@ const TeamInterface = ({ team, histories }: Props) => {
   //     new Audio("/static/sound/mixkit-hard-click-1118.mp3")
   // );
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
+
   const showDialog = () => {
     if (selectedHistory === null) {
       return;
@@ -104,14 +105,15 @@ const TeamInterface = ({ team, histories }: Props) => {
       </Dialog>
     );
   };
-  
-  const handleDeleteConfirm = () => {
+
+  const handleDeleteConfirm = async () => {
     if (selectedHistory) {
-      dispatch(deleteHistory(String(selectedHistory.id)));
+      await dispatch(deleteHistory(String(selectedHistory)));
+      await dispatch(fetchHistoryByTeamId(team.id));
       setOpenDialog(false);
     }
   };
-  
+
   let theme = createTheme({
     typography: {
       fontSize: 400,
@@ -150,7 +152,7 @@ const TeamInterface = ({ team, histories }: Props) => {
   };
 
   const resetButton = () => {
-    var element = document.getElementById("stopwatch");
+    // var element = document.getElementById("stopwatch");
     setStart(false);
     setReset(true);
     setStopwatch(0);
@@ -213,12 +215,12 @@ const TeamInterface = ({ team, histories }: Props) => {
 
   const [filterButtonEl, setFilterButtonEl] =
     React.useState<HTMLButtonElement | null>(null);
-  const [selectedHistory, setSelectedHistory] =
-    React.useState<any | null>(null);
+  const [selectedHistory, setSelectedHistory] = React.useState<any | null>(
+    null
+  );
 
   const TeamHistoryColumns: GridColDef[] = [
     // { field: "id", headerName: "ID", width: 280 },
-
     {
       field: "timestamp",
       headerName: "บันทึกเวลา (วินาที)",
@@ -337,6 +339,7 @@ const TeamInterface = ({ team, histories }: Props) => {
                 <>
                   <Alert severity="success">
                     ครั้งที่ {idx + 1} ---- {history.timestamp} วินาที
+                    {history.id}
                   </Alert>
 
                   <IconButton
@@ -370,6 +373,7 @@ const TeamInterface = ({ team, histories }: Props) => {
           `}
         </style>
       </div>
+      {showDialog()}
     </Layout>
   );
 };

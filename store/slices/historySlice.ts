@@ -24,7 +24,7 @@ export const getHistories = createAsyncThunk(
 
 export const fetchHistoryByTeamId = createAsyncThunk(
   "history/fetch/teamId",
-  async (TeamId: string) => {
+  async (TeamId: any) => {
     return await historyService.getHistoryByTeamId(TeamId);
   }
 );
