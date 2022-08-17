@@ -155,7 +155,6 @@ const Timer = () => {
           <Box textAlign='center'>
             <Button onClick={resetButton}> RESET </Button>
             <Button sx={{ mx: 10 }} onClick={toggleStart}>
-              {" "}
               {!start ? "START" : "STOP"}
             </Button>
           </Box>

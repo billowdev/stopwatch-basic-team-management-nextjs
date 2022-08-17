@@ -131,6 +131,17 @@ const TeamPage = ({}: Props) => {
       field: "number",
       headerName: "หมายเลขทีม",
       // editable: true,
+      renderCell: ({ value }: GridRenderCellParams<string>) => (
+        <Typography variant="body1">
+          <React.Fragment>
+            {value?.length == 1 ? (
+              <React.Fragment>0{value}</React.Fragment>
+            ) : (
+              <React.Fragment>{value}</React.Fragment>
+            )}
+          </React.Fragment>
+        </Typography>
+      ),
       width: 90,
     },
     {

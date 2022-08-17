@@ -5,6 +5,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next/types";
 import React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  Alert,
   Box,
   Button,
   createTheme,
@@ -21,6 +22,7 @@ import {
   fetchHistoryByTeamId,
 } from "@/store/slices/historySlice";
 import { useRouter } from "next/router";
+import toast, { Toaster } from "react-hot-toast";
 
 type Props = {
   team: TeamData;
@@ -105,9 +107,9 @@ const TeamInterface = ({ team, histories }: Props) => {
       await dispatch(fetchHistoryByTeamId(String(teamId))).then((resp) => {
         if (resp.meta.requestStatus === "fulfilled") {
           setHistoryState(resp.payload);
+          toast.success(`บันทึกเวลาสำเร็จ ${stopwatch} วินาที โปรดตรวจสอบที่ประวัติการบันทึกเวลา`)
         }
       });
-      alert("timestap successfuly");
     }
   };
 
@@ -192,14 +194,21 @@ const TeamInterface = ({ team, histories }: Props) => {
           <>
             <Typography variant="h4" sx={{ mt: 3 }}>
               ประวัติการบันทึกเวลา{" "}
+              
+
             </Typography>
 
             <Divider />
             <Box sx={{ mt: 2 }}>
               {historyState.map((history, idx) => (
-                <Typography key={idx} variant="h5">
-                  ครั้งที่ {idx + 1} ---- {history.timestamp} วินาที
-                </Typography>
+                <>
+                  <Alert severity="success">
+                    ครั้งที่ {idx + 1} ---- {history.timestamp} วินาที
+                    </Alert>
+                {/* <Typography key={idx} variant="h5">
+                ครั้งที่ {idx + 1} 
+                </Typography> */}
+                </>
               ))}
             </Box>
           </>
@@ -220,6 +229,7 @@ const TeamInterface = ({ team, histories }: Props) => {
           `}
         </style>
       </div>
+      <Toaster />
     </Layout>
   );
 };
