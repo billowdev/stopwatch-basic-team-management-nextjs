@@ -49,14 +49,72 @@ const Edit = ({ team }: Props) => {
               type="text"
               label="โรงเรียน"
             />
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="V"
+              type="text"
+              label="โวลต์"
+            />
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="A"
+              type="text"
+              label="แอมป์"
+            />
 
             <Field
               style={{ marginTop: 16 }}
               fullWidth
               component={TextField}
-              name="number"
+              name="weight"
               type="text"
-              label="หมายเลขทีม"
+              label="น้ำหนัก"
+            />
+
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="wide"
+              type="text"
+              label="กว้าง"
+            />
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="length"
+              type="text"
+              label="ยาว"
+            />
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="height"
+              type="text"
+              label="สูง"
+            />
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="orderPlay"
+              type="text"
+              label="ลำดับการลงสนาม"
+            />
+
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="orderPractice"
+              type="text"
+              label="ลำดับการซ้อม"
             />
           </CardContent>
           <CardActions>
@@ -88,12 +146,12 @@ const Edit = ({ team }: Props) => {
           let errors: any = {};
           if (!values.name) errors.name = "กรุณากรอกชื่อทีม";
           if (!values.school) errors.school = "กรุณากรอกชื่อโรงเรียน";
-          if (!values.number) errors.number = "กรุณาระบุหมายเลขทีม";
           return errors;
         }}
         initialValues={team!}
         onSubmit={async (values, { setSubmitting }) => {
           const TeamId = router.query.id;
+          console.log(values)
           await updateTeam({ id: TeamId, ...values });
           router.push("/team");
           setSubmitting(false);

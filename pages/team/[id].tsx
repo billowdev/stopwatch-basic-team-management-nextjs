@@ -182,7 +182,7 @@ const TeamInterface = ({ team, histories }: Props) => {
           >
             {dispSecondsAsMins(stopwatch)}
           </Typography>
-          <Box>
+          <Box textAlign='center'>
             <Button onClick={resetButton}> RESET </Button>
             <Button sx={{ mx: 10 }} onClick={toggleStart}>
               {!start ? "START" : "STOP"}
@@ -194,8 +194,6 @@ const TeamInterface = ({ team, histories }: Props) => {
           <>
             <Typography variant="h4" sx={{ mt: 3 }}>
               ประวัติการบันทึกเวลา{" "}
-              
-
             </Typography>
 
             <Divider />

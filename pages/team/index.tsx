@@ -6,6 +6,7 @@ import {
   GridRenderCellParams,
   GridToolbarContainer,
   GridToolbarFilterButton,
+  GridValueGetterParams,
 } from "@mui/x-data-grid";
 import { useAppDispatch } from "@/store/store";
 import { deleteTeam, getTeams, teamSelector } from "@/store/slices/teamSlice";
@@ -37,6 +38,7 @@ import Link from "next/link";
 import Add from "./add";
 import AddIcon from "@mui/icons-material/Add";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import { stringify } from "querystring";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -127,10 +129,67 @@ const TeamPage = ({}: Props) => {
 
   const columns: GridColDef[] = [
     // { field: "id", headerName: "ID", width: 280 },
+
     {
-      field: "number",
-      headerName: "หมายเลขทีม",
+      field: "name",
       // editable: true,
+      headerName: "ชื่อทีม",
+      width: 200,
+    },
+    {
+      field: "school",
+      headerName: "โรงเรียน",
+      width: 240,
+    },
+    {
+      field: "V",
+      headerName: "Volts",
+      width: 60,
+    },
+    {
+      field: "A",
+      headerName: "Amps",
+      width: 60,
+    },
+    {
+      field: "whr",
+      headerName: "W/Hr",
+      valueGetter: (params: GridValueGetterParams<any, TeamData>) => {
+        return params
+      },
+      renderCell: ({ value }: GridRenderCellParams<any>) => (
+        <Typography variant="body1">
+          <React.Fragment>
+            {(value?.row?.V) * (value?.row?.A)}
+           </React.Fragment>
+        </Typography>
+      ),
+      width: 60,
+    },
+    {
+      field: "weight",
+      headerName: "น้ำหนัก (ก.ก.)",
+      width: 100,
+    },
+
+    {
+      field: "wide",
+      headerName: "ก",
+      width: 20,
+    },
+    {
+      field: "length",
+      headerName: "ย",
+      width: 20,
+    },
+    {
+      field: "height",
+      headerName: "ส",
+      width: 20,
+    },
+    {
+      field: "orderPractice",
+      headerName: "ลำดับการซ้อม",
       renderCell: ({ value }: GridRenderCellParams<string>) => (
         <Typography variant="body1">
           <React.Fragment>
@@ -142,30 +201,35 @@ const TeamPage = ({}: Props) => {
           </React.Fragment>
         </Typography>
       ),
-      width: 90,
+      width: 120,
     },
     {
-      field: "name",
-      // editable: true,
-      headerName: "ชื่อทีม",
-      width: 200,
-    },
-    {
-      field: "school",
-      // editable: true,
-      headerName: "โรงเรียน",
-      width: 240,
-    },
-    {
-      headerName: "วันที่สมัคร",
-      field: "createdAt",
-      width: 220,
+      field: "orderPlay",
+      headerName: "ลำดับการเล่น",
       renderCell: ({ value }: GridRenderCellParams<string>) => (
         <Typography variant="body1">
-          <Moment format="DD/MM/YYYY HH:mm">{value}</Moment>
+          <React.Fragment>
+            {value?.length == 1 ? (
+              <React.Fragment>0{value}</React.Fragment>
+            ) : (
+              <React.Fragment>{value}</React.Fragment>
+            )}
+          </React.Fragment>
         </Typography>
       ),
+      width: 100,
     },
+
+    // {
+    //   headerName: "วันที่สมัคร",
+    //   field: "createdAt",
+    //   width: 220,
+    //   renderCell: ({ value }: GridRenderCellParams<string>) => (
+    //     <Typography variant="body1">
+    //       <Moment format="DD/MM/YYYY HH:mm">{value}</Moment>
+    //     </Typography>
+    //   ),
+    // },
     {
       headerName: "ACTION",
       field: ".",

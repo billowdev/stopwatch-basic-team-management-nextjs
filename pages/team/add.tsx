@@ -31,7 +31,7 @@ const Add = ({}: Props) => {
         <Card>
           <CardContent sx={{ padding: 4 }}>
             <Typography gutterBottom variant="h3">
-             เพิ่มทีม
+              เพิ่มทีม
             </Typography>
 
             <Field
@@ -51,16 +51,73 @@ const Add = ({}: Props) => {
               type="text"
               label="โรงเรียน"
             />
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="V"
+              type="text"
+              label="โวลต์"
+            />
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="A"
+              type="text"
+              label="แอมป์"
+            />
 
             <Field
               style={{ marginTop: 16 }}
               fullWidth
               component={TextField}
-              name="number"
+              name="weight"
               type="text"
-              label="หมายเลขทีม"
+              label="น้ำหนัก"
             />
 
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="wide"
+              type="text"
+              label="กว้าง"
+            />
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="length"
+              type="text"
+              label="ยาว"
+            />
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="height"
+              type="text"
+              label="สูง"
+            />
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="orderPlay"
+              type="text"
+              label="ลำดับการลงสนาม"
+            />
+
+            <Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="orderPractice"
+              type="text"
+              label="ลำดับการซ้อม"
+            />
           </CardContent>
           <CardActions>
             <Button
@@ -86,7 +143,14 @@ const Add = ({}: Props) => {
   const initialValues: TeamData = {
     name: "",
     school: "",
-    number: "",
+    V: 0,
+    A: 0,
+    weight: "",
+    wide: "",
+    height: "",
+    length: "",
+    orderPractice: "",
+    orderPlay: "",
   };
 
   return (
@@ -96,8 +160,6 @@ const Add = ({}: Props) => {
           let errors: any = {};
           if (!values.name) errors.name = "กรุณากรอกชื่อทีม";
           if (!values.school) errors.school = "กรุณากรอกชื่อโรงเรียน";
-          if (!values.number) errors.number = "กรุณาระบุหมายเลขทีม";
-
           return errors;
         }}
         initialValues={initialValues}

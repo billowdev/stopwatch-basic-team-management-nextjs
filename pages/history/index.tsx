@@ -114,7 +114,7 @@ const HistoryPage = ({}: Props) => {
         return params.row.team.school
       },
       headerName: "โรงเรียน",
-      width: 100,
+      width: 200,
       renderCell: ({ value }: GridRenderCellParams<string>) => (
         <Typography variant="body1">{value}</Typography>
       ),
@@ -133,7 +133,7 @@ const HistoryPage = ({}: Props) => {
     {
       field: "timestamp",
       headerName: "บันทึกเวลา (วินาที)",
-      width: 200,
+      width: 130,
       renderCell: ({ value }: GridRenderCellParams<string>) => (
         <Typography variant="body1">{value}</Typography>
       ),
