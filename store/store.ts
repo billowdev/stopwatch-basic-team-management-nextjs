@@ -3,10 +3,12 @@ import { useDispatch } from "react-redux";
 
 import historyReducer from "./slices/historySlice";
 import teamReducer from "./slices/teamSlice";
+import userReducer from "./slices/userSlice"
 
 const reducer = {
   team: teamReducer,
   history: historyReducer,
+  user: userReducer,
 };
 
 export const store = configureStore({

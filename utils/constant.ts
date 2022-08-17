@@ -1,3 +1,4 @@
+
 export const PERSIST_ORDER_LIST = "PERSIST_ORDER_LIST";
 export const PERSIST_CART_EXP = "PERSIST_CART_EXP";
 export const PERSIST_SHOP_ID = "PERSIST_SHOP_ID";
@@ -9,5 +10,5 @@ export const COUNTRY_THAI_ID = "5a8e9be55e843e9239e91b76";
 export const DISPLAY_MODE_TEXT = "TEXT";
 export const HTTP_METHOD_GET = "GET";
 export const HTTP_METHOD_POST = "POST";
-
+export const ACCESS_TOKEN_KEY = "access_token"
 

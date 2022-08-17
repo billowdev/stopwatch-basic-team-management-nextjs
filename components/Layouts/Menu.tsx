@@ -9,17 +9,19 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { blue } from "@mui/material/colors";
-import { ListItem, Stack } from "@mui/material";
+import { Box, ListItem, Stack } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
 import { Layers, BarChart, Person } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import GroupsIcon from "@mui/icons-material/Groups";
-import HistoryIcon from '@mui/icons-material/History';
-import Timer10Icon from '@mui/icons-material/Timer10';
+import HistoryIcon from "@mui/icons-material/History";
+import Timer10Icon from "@mui/icons-material/Timer10";
 const drawerWidth = 240;
-import TimerIcon from '@mui/icons-material/Timer';
-
+import TimerIcon from "@mui/icons-material/Timer";
+import { userSelector } from "@/store/slices/userSlice";
+import { useSelector } from "react-redux";
+import LoginIcon from '@mui/icons-material/Login';
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -75,6 +77,7 @@ type MenuProp = {
 export default function Menu({ open, onDrawerClose }: MenuProp) {
   const theme = useTheme();
   const router = useRouter();
+  const userData = useSelector(userSelector);
 
   return (
     <Drawer variant="permanent" open={open}>
@@ -100,37 +103,40 @@ export default function Menu({ open, onDrawerClose }: MenuProp) {
           </IconButton>
         </Stack>
       </DrawerHeader>
-      <Divider />
 
       <Divider />
       <List>
-        {/* team */}
-        <Link href="/team" passHref>
-          <ListItem
-            button
-            className={router.pathname === "/team" ? "Mui-selected" : ""}
-          >
-            <ListItemIcon>
-              <GroupsIcon />
-            </ListItemIcon>
-            <ListItemText primary="จัดการทีม" />
-          </ListItem>
-        </Link>
+        {userData && userData?.username && (
+          <>
+            {/* team */}
+            <Link href="/team" passHref>
+              <ListItem
+                button
+                className={router.pathname === "/team" ? "Mui-selected" : ""}
+              >
+                <ListItemIcon>
+                  <GroupsIcon />
+                </ListItemIcon>
+                <ListItemText primary="จัดการทีม" />
+              </ListItem>
+            </Link>
 
-        {/* History */}
-        <Link href="/history" passHref>
-          <ListItem
-            button
-            className={router.pathname === "/history" ? "Mui-selected" : ""}
-          >
-            <ListItemIcon>
-              <HistoryIcon />
-            </ListItemIcon>
-            <ListItemText primary="ประวัติการบันทึกเวลา" />
-          </ListItem>
-        </Link>
+            {/* History */}
+            <Link href="/history" passHref>
+              <ListItem
+                button
+                className={router.pathname === "/history" ? "Mui-selected" : ""}
+              >
+                <ListItemIcon>
+                  <HistoryIcon />
+                </ListItemIcon>
+                <ListItemText primary="ประวัติการบันทึกเวลา" />
+              </ListItem>
+            </Link>
 
-        <Divider />
+            <Divider />
+          </>
+        )}
 
         <Link href="/timer" passHref>
           <ListItem
@@ -155,22 +161,25 @@ export default function Menu({ open, onDrawerClose }: MenuProp) {
             <ListItemText primary="จับเวลา" />
           </ListItem>
         </Link>
+        <Divider />
 
-      
-
-
-        {/* Aboutus */}
-        {/* <Link href="/aboutus" passHref>
-          <ListItem
-            button
-            className={router.pathname === "/aboutus" ? "Mui-selected" : ""}
-          >
-            <ListItemIcon>
-              <Person />
-            </ListItemIcon>
-            <ListItemText primary="About us" />
-          </ListItem>
-        </Link> */}
+        {userData && !userData.token && (
+          <>
+            <Link href="/auth/signin" passHref>
+              <ListItem
+                button
+                className={
+                  router.pathname === "/auth/signin" ? "Mui-selected" : ""
+                }
+              >
+                <ListItemIcon>
+                  <LoginIcon />
+                </ListItemIcon>
+                <ListItemText primary="เข้าระบบ (กรรมการ)" />
+              </ListItem>
+            </Link>
+          </>
+        )}
       </List>
     </Drawer>
   );

@@ -126,7 +126,7 @@ const StopWatch = ({}: Props) => {
         นาฬิกาจับเวลา
       </Typography>
 
-      <div className="Timer text-align-center">
+      <Box className="Timer text-align-center" sx={{mb: 8}}>
         <ThemeProvider theme={theme}>
           <Typography
             id="timer"
@@ -159,7 +159,7 @@ const StopWatch = ({}: Props) => {
             }
           `}
         </style>
-      </div>
+      </Box>
     </Layout>
   );
 };

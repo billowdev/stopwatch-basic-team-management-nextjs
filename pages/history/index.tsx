@@ -31,15 +31,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import NumberFormat from "react-number-format";
 import Moment from "react-moment";
-import router from "next/router";
-import EditIcon from "@mui/icons-material/Edit";
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import { HistoryData } from "@/models/history.model";
 import { TransitionProps } from "@mui/material/transitions";
 import Link from "next/link";
 import { TeamData } from "@/models/team.model";
+import withAuth from "@/components/withAuth";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -199,4 +198,4 @@ const HistoryPage = ({}: Props) => {
   );
 };
 
-export default HistoryPage;
+export default withAuth(HistoryPage);

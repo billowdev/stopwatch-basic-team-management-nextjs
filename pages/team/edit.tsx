@@ -1,6 +1,6 @@
 import Layout from "@/components/Layouts/Layout";
 import { TeamData } from "@/models/team.model";
-import { createTeam, getTeam, updateTeam } from "@/services/teamService";
+import { getTeam, updateTeam } from "@/services/teamService";
 
 import {
   Card,
@@ -16,6 +16,10 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { Router, useRouter } from "next/router";
+import { useAppDispatch } from "@/store/store";
+import { updateTeamAction } from "@/store/slices/teamSlice";
+import toast, { Toaster } from "react-hot-toast";
+import withAuth from "@/components/withAuth";
 
 type Props = {
   team: TeamData;
@@ -23,7 +27,12 @@ type Props = {
 
 const Edit = ({ team }: Props) => {
   const router = useRouter();
-  const showForm = ({ isValid }: FormikProps<TeamData>) => {
+  const dispatch = useAppDispatch();
+  const showForm = ({
+    values,
+    setFieldValue,
+    isValid,
+  }: FormikProps<TeamData>) => {
     return (
       <Form>
         <Card>
@@ -54,16 +63,16 @@ const Edit = ({ team }: Props) => {
               fullWidth
               component={TextField}
               name="V"
-              type="text"
-              label="โวลต์"
+              type="number"
+              label="โวลต์ (โวลต์และแอมป์รวมกัน ห้ามเกิน 15 watt .hr)"
             />
             <Field
               style={{ marginTop: 16 }}
               fullWidth
               component={TextField}
               name="A"
-              type="text"
-              label="แอมป์"
+              type="number"
+              label="แอมป์ (โวลต์และแอมป์รวมกัน ห้ามเกิน 15 watt .hr)"
             />
 
             <Field
@@ -72,7 +81,7 @@ const Edit = ({ team }: Props) => {
               component={TextField}
               name="weight"
               type="text"
-              label="น้ำหนัก"
+              label="น้ำหนัก (ไม่เกิน 1 กก.)"
             />
 
             <Field
@@ -81,7 +90,7 @@ const Edit = ({ team }: Props) => {
               component={TextField}
               name="wide"
               type="text"
-              label="กว้าง"
+              label="กว้าง (ไม่เกิน 25 ซม.)"
             />
             <Field
               style={{ marginTop: 16 }}
@@ -89,7 +98,7 @@ const Edit = ({ team }: Props) => {
               component={TextField}
               name="length"
               type="text"
-              label="ยาว"
+              label="ยาว (ไม่เกิน 30 ซม.)"
             />
             <Field
               style={{ marginTop: 16 }}
@@ -97,7 +106,7 @@ const Edit = ({ team }: Props) => {
               component={TextField}
               name="height"
               type="text"
-              label="สูง"
+              label="สูง (ไม่เกิน 20 ซม.)"
             />
             <Field
               style={{ marginTop: 16 }}
@@ -116,6 +125,18 @@ const Edit = ({ team }: Props) => {
               type="text"
               label="ลำดับการซ้อม"
             />
+
+            
+<Field
+              style={{ marginTop: 16 }}
+              fullWidth
+              component={TextField}
+              name="distance"
+              type="text"
+              label="ระยะทางที่ได้"
+            />
+
+
           </CardContent>
           <CardActions>
             <Button
@@ -150,20 +171,23 @@ const Edit = ({ team }: Props) => {
         }}
         initialValues={team!}
         onSubmit={async (values, { setSubmitting }) => {
-          const TeamId = router.query.id;
-          console.log(values)
-          await updateTeam({ id: TeamId, ...values });
-          router.push("/team");
+          const id = router.query.id;
+          const updateStatus = await dispatch(updateTeamAction({ id, ...values }))
+          if(updateStatus.meta.requestStatus === "fulfilled"){
+            toast.success("แก้ไขข้อมูลทีมสำเร็จ")
+            router.push("/team")
+          }
           setSubmitting(false);
         }}
       >
         {(props) => showForm(props)}
       </Formik>
+     
     </Layout>
   );
 };
 
-export default Edit;
+export default withAuth(Edit);
 
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext

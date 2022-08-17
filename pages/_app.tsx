@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { blue, red, yellow } from "@mui/material/colors";
+import { Toaster } from "react-hot-toast";
+import { getSession } from "@/store/slices/userSlice";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const drawerWidth = 240;
@@ -38,10 +40,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     },
   });
 
+  React.useEffect(() => {
+    store.dispatch(getSession());
+  }, []);
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
+        <Toaster />
       </ThemeProvider>
     </Provider>
   );

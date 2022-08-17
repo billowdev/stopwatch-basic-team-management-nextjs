@@ -39,6 +39,7 @@ import Add from "./add";
 import AddIcon from "@mui/icons-material/Add";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import { stringify } from "querystring";
+import withAuth from "@/components/withAuth";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -219,7 +220,22 @@ const TeamPage = ({}: Props) => {
       ),
       width: 100,
     },
-
+    {
+      field: "distance",
+      headerName: "ระยะทางที่ได้",
+      renderCell: ({ value }: GridRenderCellParams<string>) => (
+        <Typography variant="body1">
+          <React.Fragment>
+            {value?.length == 1 ? (
+              <React.Fragment>0{value}</React.Fragment>
+            ) : (
+              <React.Fragment>{value}</React.Fragment>
+            )}
+          </React.Fragment>
+        </Typography>
+      ),
+      width: 120,
+    },
     // {
     //   headerName: "วันที่สมัคร",
     //   field: "createdAt",
@@ -231,7 +247,7 @@ const TeamPage = ({}: Props) => {
     //   ),
     // },
     {
-      headerName: "ACTION",
+      headerName: "การดำเนินการ",
       field: ".",
       width: 180,
       renderCell: ({ row }: GridRenderCellParams<string>) => (
@@ -291,4 +307,4 @@ const TeamPage = ({}: Props) => {
   );
 };
 
-export default TeamPage;
+export default withAuth(TeamPage);

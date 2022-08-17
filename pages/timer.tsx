@@ -139,7 +139,7 @@ const Timer = () => {
 
   return (
     <Layout>
-      <div className="Timer text-align-center">
+      <Box className="Timer text-align-center" sx={{mb: 8}}>
         <Typography align="center" variant="h4" sx={{ mt: 1 }}>
           นาฬิกานับถอยหลัง 10 นาที
         </Typography>
@@ -174,7 +174,7 @@ const Timer = () => {
             }
           `}
         </style>
-      </div>
+      </Box>
     </Layout>
   );
 };

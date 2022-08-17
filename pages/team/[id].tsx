@@ -12,6 +12,13 @@ import {
   Divider,
   responsiveFontSizes,
   ThemeProvider,
+  IconButton,
+  Stack,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { getHistory, getHistoryByTeamId } from "@/services/historyService";
@@ -19,10 +26,22 @@ import { HistoryData } from "@/models/history.model";
 import { useAppDispatch } from "@/store/store";
 import {
   createTeamHistory,
+  deleteHistory,
   fetchHistoryByTeamId,
 } from "@/store/slices/historySlice";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
+import withAuth from "@/components/withAuth";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridToolbarContainer,
+  GridToolbarFilterButton,
+  GridValueGetterParams,
+} from "@mui/x-data-grid";
+import Moment from "react-moment";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 type Props = {
   team: TeamData;
@@ -52,7 +71,47 @@ const TeamInterface = ({ team, histories }: Props) => {
   //   typeof Audio !== "undefined" &&
   //     new Audio("/static/sound/mixkit-hard-click-1118.mp3")
   // );
+  const [openDialog, setOpenDialog] = React.useState<boolean>(false);
+  const showDialog = () => {
+    if (selectedHistory === null) {
+      return;
+    }
 
+    return (
+      <Dialog
+        open={openDialog}
+        keepMounted
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">
+          <br />
+          Confirm to delete the history? : {selectedHistory.id}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            หากคุณลบประวัติการบันทึกเวลาแล้ว จะไม่สามารถกู้คืนข้อมูลได้ !
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)} color="info">
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteConfirm} color="primary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  };
+  
+  const handleDeleteConfirm = () => {
+    if (selectedHistory) {
+      dispatch(deleteHistory(String(selectedHistory.id)));
+      setOpenDialog(false);
+    }
+  };
+  
   let theme = createTheme({
     typography: {
       fontSize: 400,
@@ -98,6 +157,7 @@ const TeamInterface = ({ team, histories }: Props) => {
   };
 
   const timeStampHandle = async () => {
+    console.log(histories.length);
     const data = { TeamId: team.id, timestamp: String(stopwatch) };
     const create = await dispatch(createTeamHistory(data));
     if (create.meta.requestStatus === "rejected") {
@@ -107,7 +167,9 @@ const TeamInterface = ({ team, histories }: Props) => {
       await dispatch(fetchHistoryByTeamId(String(teamId))).then((resp) => {
         if (resp.meta.requestStatus === "fulfilled") {
           setHistoryState(resp.payload);
-          toast.success(`บันทึกเวลาสำเร็จ ${stopwatch} วินาที โปรดตรวจสอบที่ประวัติการบันทึกเวลา`)
+          toast.success(
+            `บันทึกเวลาสำเร็จ ${stopwatch} วินาที โปรดตรวจสอบที่ประวัติการบันทึกเวลา`
+          );
         }
       });
     }
@@ -149,13 +211,67 @@ const TeamInterface = ({ team, histories }: Props) => {
     };
   }, [handleUserKeyPress]);
 
+  const [filterButtonEl, setFilterButtonEl] =
+    React.useState<HTMLButtonElement | null>(null);
+  const [selectedHistory, setSelectedHistory] =
+    React.useState<any | null>(null);
+
+  const TeamHistoryColumns: GridColDef[] = [
+    // { field: "id", headerName: "ID", width: 280 },
+
+    {
+      field: "timestamp",
+      headerName: "บันทึกเวลา (วินาที)",
+      width: 130,
+      renderCell: ({ value }: GridRenderCellParams<string>) => (
+        <Typography variant="body1">{value}</Typography>
+      ),
+    },
+    {
+      headerName: "TIME",
+      field: "createdAt",
+      width: 220,
+      renderCell: ({ value }: GridRenderCellParams<string>) => (
+        <Typography variant="body1">
+          <Moment format="DD/MM/YYYY HH:mm">{value}</Moment>
+        </Typography>
+      ),
+    },
+    {
+      headerName: "ACTION",
+      field: ".",
+      width: 120,
+      renderCell: ({ row }: GridRenderCellParams<string>) => (
+        <Stack direction="row">
+          {/* <IconButton
+            aria-label="edit"
+            size="large"
+            onClick={() => router.push("/history/edit?id=" + row.id)}
+          >
+            <EditIcon fontSize="inherit" />
+          </IconButton> */}
+          <IconButton
+            aria-label="delete"
+            size="large"
+            onClick={() => {
+              setSelectedHistory(row);
+              setOpenDialog(true);
+            }}
+          >
+            <DeleteIcon fontSize="inherit" />
+          </IconButton>
+        </Stack>
+      ),
+    },
+  ];
+
   return (
     <Layout>
       {team && (
         <>
           <h2>
             คุณกำลังอยู่ใน อินเทอร์เฟส ของทีม {team.name} ซึ่งเป็นทีมที่{" "}
-            {team.number} จากโรงเรียน {team.school}
+            {team.orderPlay} จากโรงเรียน {team.school}
           </h2>
           <Box>
             <h3>เวลาที่ใช้ในรอบปัจจุบัน {stopwatch} วินาที</h3>
@@ -182,7 +298,7 @@ const TeamInterface = ({ team, histories }: Props) => {
           >
             {dispSecondsAsMins(stopwatch)}
           </Typography>
-          <Box textAlign='center'>
+          <Box textAlign="center">
             <Button onClick={resetButton}> RESET </Button>
             <Button sx={{ mx: 10 }} onClick={toggleStart}>
               {!start ? "START" : "STOP"}
@@ -193,19 +309,46 @@ const TeamInterface = ({ team, histories }: Props) => {
         {histories && (
           <>
             <Typography variant="h4" sx={{ mt: 3 }}>
-              ประวัติการบันทึกเวลา{" "}
+              ประวัติการบันทึกเวลา ไม่เกิน 3 ครั้ง
             </Typography>
 
             <Divider />
+
+            {/* <DataGrid
+              sx={{ backgroundColor: "white", height: "70vh" }}
+              rows={histories ?? []}
+              
+              columns={TeamHistoryColumns}
+              pageSize={15}
+              rowsPerPageOptions={[15]}
+              autoHeight={true}
+              componentsProps={{
+                panel: {
+                  anchorEl: filterButtonEl,
+                },
+                toolbar: {
+                  setFilterButtonEl,
+                },
+              }}
+            /> */}
+
             <Box sx={{ mt: 2 }}>
               {historyState.map((history, idx) => (
                 <>
                   <Alert severity="success">
                     ครั้งที่ {idx + 1} ---- {history.timestamp} วินาที
-                    </Alert>
-                {/* <Typography key={idx} variant="h5">
-                ครั้งที่ {idx + 1} 
-                </Typography> */}
+                  </Alert>
+
+                  <IconButton
+                    aria-label="delete"
+                    size="large"
+                    onClick={() => {
+                      setSelectedHistory(history.id);
+                      setOpenDialog(true);
+                    }}
+                  >
+                    <DeleteIcon fontSize="inherit" />
+                  </IconButton>
                 </>
               ))}
             </Box>
@@ -227,11 +370,10 @@ const TeamInterface = ({ team, histories }: Props) => {
           `}
         </style>
       </div>
-      <Toaster />
     </Layout>
   );
 };
-export default TeamInterface;
+export default withAuth(TeamInterface);
 
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext

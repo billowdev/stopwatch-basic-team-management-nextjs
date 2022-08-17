@@ -8,6 +8,7 @@ export interface TeamData {
 	length?: string;
 	height?: string;
 	school?: string;
+	distance?: string;
 	V?: number;
 	A?: number;
 	createdAt?: Date;

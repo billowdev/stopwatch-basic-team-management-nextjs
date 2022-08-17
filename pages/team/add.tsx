@@ -15,6 +15,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import withAuth from "@/components/withAuth";
 
 type Props = {};
 
@@ -175,4 +176,4 @@ const Add = ({}: Props) => {
   );
 };
 
-export default Add;
+export default withAuth(Add);

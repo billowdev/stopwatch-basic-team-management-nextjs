@@ -1,5 +1,6 @@
 import { TeamData } from "@/models/team.model";
-import httpClient from "@/utils/httpClient";
+import httpClient from "@/utils/httpClient.util";
+import { ForkedTask } from "@reduxjs/toolkit";
 
 export const getTeams = async (): Promise<TeamData[]> => {
 	const response = await httpClient.get(`/team`)
@@ -16,7 +17,7 @@ export const createTeam = async (data: TeamData): Promise<any> => {
 };
 
 export const updateTeam = async (data: any): Promise<void> => {
-	await httpClient.patch(`/team/${data.id}`, data);
+	await httpClient.put(`/team/${data.id}`, data);
 };
 
 

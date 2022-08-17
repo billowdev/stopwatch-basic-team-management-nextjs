@@ -27,6 +27,13 @@ export const getTeams = createAsyncThunk(
   }
 );
 
+export const updateTeamAction = createAsyncThunk(
+  "team/update",
+  async (data: any) => {
+    await teamService.updateTeam(data);
+  }
+);
+
 export const deleteTeam = createAsyncThunk(
   "team/delete",
   async (id: string) => {
@@ -46,6 +53,9 @@ const teamSlice = createSlice({
     builder.addCase(getTeam.fulfilled, (state, action) => {
       state.teams = action.payload;
     });
+
+
+
   },
 });
 

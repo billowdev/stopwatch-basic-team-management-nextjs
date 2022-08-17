@@ -1,5 +1,5 @@
 import { HistoryData } from "@/models/history.model";
-import httpClient from "@/utils/httpClient";
+import httpClient from "@/utils/httpClient.util";
 
 export const getHistories = async (): Promise<HistoryData[]> => {
 	const response = await httpClient.get(`/history`)
