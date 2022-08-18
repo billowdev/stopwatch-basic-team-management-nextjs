@@ -98,7 +98,6 @@ const SignIn = ({}: Props) => {
                 if (response.meta.requestStatus === "rejected") {
                   toast.error("ลงชื่อเข้าใช้ไม่สำเร็จ!")
                 } else {
-                  toast.success("ลงชื่อเข้าใช้สำเร็จ... กำลังเข้าสู่หน้าระบบ")
                   router.push("/team");
                 }
               }}

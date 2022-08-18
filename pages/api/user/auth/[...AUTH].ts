@@ -10,8 +10,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import cookie from "cookie";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-	if(req.query.AUTH){
-		const action: any  = req.query['AUTH'][0]
+	if (req.query.AUTH) {
+		const action: any = req.query['AUTH'][0]
 		if (req.method === HTTP_METHOD_POST && action === "signin") {
 			return signin(req, res);
 		} else if (req.method === HTTP_METHOD_GET && action === "signout") {
@@ -28,8 +28,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 async function signin(req: NextApiRequest, res: NextApiResponse<any>) {
 	try {
-		const response = await httpClient.post(`/auth/signin`, req.body);
-
+		const { username, password } = req.body
+		const response = await httpClient.post(`/auth/signin`, { username, password });
 		const { token } = response.data;
 		setCookie(res, ACCESS_TOKEN_KEY, token, {
 			httpOnly: true,
