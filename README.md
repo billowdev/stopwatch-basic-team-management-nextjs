@@ -34,19 +34,19 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 ###### login page
-![login](https://github.com/billowdev/stopwatch-nextjs/blob/main/login.jpeg?raw=true)
+![login](https://github.com/billowdev/stopwatch-nextjs/blob/main/Readme/login.jpeg?raw=true)
 
 ###### team management page
-![team management](https://github.com/billowdev/stopwatch-nextjs/blob/main/team.jpeg?raw=true)
+![team management](https://github.com/billowdev/stopwatch-nextjs/blob/main/Readme/team.jpeg?raw=true)
 
 ###### edit team page
-![edit team](https://github.com/billowdev/stopwatch-nextjs/blob/main/editteam.jpeg?raw=true)
+![edit team](https://github.com/billowdev/stopwatch-nextjs/blob/main/Readme/editteam.jpeg?raw=true)
 
 ###### timer page
-![timer](https://github.com/billowdev/stopwatch-nextjs/blob/main/timer.jpeg?raw=true)
+![timer](https://github.com/billowdev/stopwatch-nextjs/blob/main/Readme/timer.jpeg?raw=true)
 
 ###### stopwatch page
-![stopwatch](https://github.com/billowdev/stopwatch-nextjs/blob/main/stopwatch.jpeg?raw=true)
+![stopwatch](https://github.com/billowdev/stopwatch-nextjs/blob/main/Readme/stopwatch.jpeg?raw=true)
 
 ###### history page
-![history](https://github.com/billowdev/stopwatch-nextjs/blob/main/stopwatch.jpeg?raw=true)
+![history](https://github.com/billowdev/stopwatch-nextjs/blob/main/Readme/stopwatch.jpeg?raw=true)
