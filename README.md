@@ -49,4 +49,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ![stopwatch](https://github.com/billowdev/stopwatch-nextjs/blob/main/Readme/stopwatch.jpeg?raw=true)
 
 ###### history page
-![history](https://github.com/billowdev/stopwatch-nextjs/blob/main/Readme/stopwatch.jpeg?raw=true)
+![history](https://github.com/billowdev/stopwatch-nextjs/blob/main/Readme/history.jpeg?raw=true)
