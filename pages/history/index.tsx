@@ -49,6 +49,19 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+
+
+const CustomToolbar: React.FunctionComponent<{
+  setFilterButtonEl: React.Dispatch<
+    React.SetStateAction<HTMLButtonElement | null>
+  >;
+}> = ({ setFilterButtonEl }) => (
+  <GridToolbarContainer>
+    <GridToolbarFilterButton ref={setFilterButtonEl} />
+   
+  </GridToolbarContainer>
+);
+
 type Props = {};
 
 const HistoryPage = ({}: Props) => {
@@ -179,11 +192,14 @@ const HistoryPage = ({}: Props) => {
     <Layout>
       {/* Summary Icons */}
       <DataGrid
-        sx={{ backgroundColor: "white", height: "70vh" }}
+        sx={{ backgroundColor: "white", height: "100vh", width: "80vw"}}
         rows={historyList ?? []}
         columns={columns}
-        pageSize={15}
-        rowsPerPageOptions={[15]}
+        pageSize={25}
+        rowsPerPageOptions={[25]}
+        components={{
+          Toolbar: CustomToolbar,
+        }}
         componentsProps={{
           panel: {
             anchorEl: filterButtonEl,

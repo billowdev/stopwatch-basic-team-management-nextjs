@@ -76,8 +76,8 @@ const CustomToolbar: React.FunctionComponent<{
 type Props = {};
 
 const TeamPage = ({}: Props) => {
-  const dispatch = useAppDispatch();
-  const teamList = useSelector(teamSelector);
+  const dispatch: any = useAppDispatch();
+  const teamList: any = useSelector(teamSelector);
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
   const [selectedTeam, setSelectedTeam] = React.useState<TeamData | null>(null);
 
@@ -156,13 +156,11 @@ const TeamPage = ({}: Props) => {
       field: "whr",
       headerName: "W/Hr",
       valueGetter: (params: GridValueGetterParams<any, TeamData>) => {
-        return params
+        return params;
       },
       renderCell: ({ value }: GridRenderCellParams<any>) => (
         <Typography variant="body1">
-          <React.Fragment>
-            {(value?.row?.V) * (value?.row?.A)}
-           </React.Fragment>
+          <React.Fragment>{value?.row?.V * value?.row?.A}</React.Fragment>
         </Typography>
       ),
       width: 60,
@@ -236,16 +234,6 @@ const TeamPage = ({}: Props) => {
       ),
       width: 120,
     },
-    // {
-    //   headerName: "วันที่สมัคร",
-    //   field: "createdAt",
-    //   width: 220,
-    //   renderCell: ({ value }: GridRenderCellParams<string>) => (
-    //     <Typography variant="body1">
-    //       <Moment format="DD/MM/YYYY HH:mm">{value}</Moment>
-    //     </Typography>
-    //   ),
-    // },
     {
       headerName: "การดำเนินการ",
       field: ".",
@@ -285,11 +273,11 @@ const TeamPage = ({}: Props) => {
     <Layout>
       {/* Summary Icons */}
       <DataGrid
-        sx={{ backgroundColor: "white", height: "70vh" }}
+        sx={{ backgroundColor: "white", height: "100vh", width: "80vw" }}
         rows={teamList ?? []}
         columns={columns}
-        pageSize={15}
-        rowsPerPageOptions={[15]}
+        pageSize={25}
+        rowsPerPageOptions={[25]}
         components={{
           Toolbar: CustomToolbar,
         }}

@@ -55,7 +55,7 @@ const TeamInterface = ({ team, histories }: Props) => {
   const [reset, setReset] = useState(false);
   const firstStart: any = useRef(true);
   const tick: any = useRef();
-  const dispatch = useAppDispatch();
+  const dispatch: any = useAppDispatch();
   const [historyState, setHistoryState] = useState(histories);
   // const [audio] = useState(
   //   typeof Audio !== "undefined" &&
@@ -166,7 +166,7 @@ const TeamInterface = ({ team, histories }: Props) => {
       alert("timestap failed");
     } else {
       const teamId = router.query.id;
-      await dispatch(fetchHistoryByTeamId(String(teamId))).then((resp) => {
+      await dispatch(fetchHistoryByTeamId(String(teamId))).then((resp: any) => {
         if (resp.meta.requestStatus === "fulfilled") {
           setHistoryState(resp.payload);
           toast.success(
