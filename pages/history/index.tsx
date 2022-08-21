@@ -126,7 +126,7 @@ const HistoryPage = ({}: Props) => {
         return params.row.team.school
       },
       headerName: "โรงเรียน",
-      width: 200,
+      width: 240,
       renderCell: ({ value }: GridRenderCellParams<string>) => (
         <Typography variant="body1">{value}</Typography>
       ),
@@ -137,7 +137,7 @@ const HistoryPage = ({}: Props) => {
         return params.getValue(params.id, "team").name;
       },
       headerName: "ทีม",
-      width: 100,
+      width: 240,
       renderCell: ({ value }: GridRenderCellParams<string>) => (
         <Typography variant="body1">{value}</Typography>
       ),

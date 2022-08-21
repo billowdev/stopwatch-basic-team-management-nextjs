@@ -67,7 +67,6 @@ export default function Header({ open, onDrawerOpen }: HeaderProp) {
         </IconButton>
         <Typography variant="h6" noWrap component="div">
           การแข่งขันหุ่นยนต์ สัปดาห์วันวิทยาศาสตร์ ปีการศึกษา 2565
-          มหาวิทยาลัยราชภัฏสกลนคร
         </Typography>
 
         <Box sx={{ flexGrow: 1 }} />

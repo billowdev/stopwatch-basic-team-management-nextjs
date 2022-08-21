@@ -32,3 +32,21 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+###### login page
+![login](https://github.com/billowdev/stopwatch-nextjs/blob/main/login.jpeg?raw=true)
+
+###### team management page
+![team management](https://github.com/billowdev/stopwatch-nextjs/blob/main/team.jpeg?raw=true)
+
+###### edit team page
+![edit team](https://github.com/billowdev/stopwatch-nextjs/blob/main/editteam.jpeg?raw=true)
+
+###### timer page
+![timer](https://github.com/billowdev/stopwatch-nextjs/blob/main/timer.jpeg?raw=true)
+
+###### stopwatch page
+![stopwatch](https://github.com/billowdev/stopwatch-nextjs/blob/main/stopwatch.jpeg?raw=true)
+
+###### history page
+![history](https://github.com/billowdev/stopwatch-nextjs/blob/main/stopwatch.jpeg?raw=true)
